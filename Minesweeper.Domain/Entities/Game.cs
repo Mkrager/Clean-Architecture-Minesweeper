@@ -1,4 +1,4 @@
-﻿namespace Minesweeper.Domain
+﻿namespace Minesweeper.Domain.Entities
 {
     public class Game
     {
