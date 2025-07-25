@@ -1,13 +1,18 @@
-﻿namespace Minesweeper.Domain.Entities
+﻿using Minesweeper.Domain.Entities;
+
+public class Game
 {
-    public class Game
+    public int Width { get; }
+    public int Height { get; }
+    public GameStatus Status { get; set; }
+    public Cell[,] Field { get; set; } = default!;
+    public bool IsFirstMove { get; set; } = true;
+    public int TotalMines { get; }
+
+    public Game(int width, int height, int totalMines)
     {
-        public Guid Id { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public GameStatus Status { get; set; }
-        public Cell[,] Field { get; set; } = default!;
-        public int TotalMines { get; set; }
-        public bool IsFirstMove { get; set; } = true;
+        Width = width; 
+        Height = height; 
+        TotalMines = totalMines;
     }
 }
