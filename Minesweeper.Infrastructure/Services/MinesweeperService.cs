@@ -22,7 +22,12 @@ namespace Minesweeper.Infrastructure.Services
 
         public Task<Guid> CreateNewGameAsync(int width, int height, int mines)
         {
-            var game = new Game(width, height, mines);
+            var game = new Game()
+            {
+                Width = width,
+                Height = height,
+                TotalMines = mines
+            };
             _engine.Initialize(game);
             var id = Guid.NewGuid();
             _cache.Set(id, game, _cacheOptions);
@@ -110,7 +115,7 @@ namespace Minesweeper.Infrastructure.Services
         private Game GetGame(Guid gameId)
         {
             if (!_cache.TryGetValue(gameId, out Game game))
-                throw new Exception("Гра не знайдена");
+                throw new Exception("Game noy found");
             return game;
         }
     }
