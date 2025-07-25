@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minesweeper.Infrastructure"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minesweeper.Api", "Minesweeper.Api\Minesweeper.Api.csproj", "{BBB0D335-4374-459F-A33E-740F562B4049}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Minesweeper.Application.UnitTests", "Minesweeper.Application.UnitTests\Minesweeper.Application.UnitTests.csproj", "{C30BA1B6-12D4-45FE-ABCF-84671E5F105F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{BBB0D335-4374-459F-A33E-740F562B4049}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBB0D335-4374-459F-A33E-740F562B4049}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBB0D335-4374-459F-A33E-740F562B4049}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C30BA1B6-12D4-45FE-ABCF-84671E5F105F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C30BA1B6-12D4-45FE-ABCF-84671E5F105F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C30BA1B6-12D4-45FE-ABCF-84671E5F105F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C30BA1B6-12D4-45FE-ABCF-84671E5F105F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,6 +64,7 @@ Global
 		{2C22BEC1-3608-4D2B-860A-9C1B19DB8CF3} = {27130E5D-DDDE-4DE9-861C-21D7C483F93B}
 		{6B63E8B3-ABA5-4360-AA97-40B641C973E7} = {D6D4C237-077E-4CE3-982F-BA83F5BF5E8B}
 		{BBB0D335-4374-459F-A33E-740F562B4049} = {2C601BEE-252E-4B1B-8393-74A84FAF8EE2}
+		{C30BA1B6-12D4-45FE-ABCF-84671E5F105F} = {A8873CA0-0E1D-48CB-9571-B08190EBF468}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {28870C13-FEB3-48E5-B4E8-3D92D2C95176}

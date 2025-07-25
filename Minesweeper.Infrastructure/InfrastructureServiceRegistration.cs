@@ -9,6 +9,7 @@ namespace Minesweeper.Infrastructure
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
         {
             services.AddTransient<IMinesweeperService, MinesweeperService>();
+            services.AddTransient<IGameEngine, GameEngine>();
             services.AddMemoryCache();
             return services;
         }

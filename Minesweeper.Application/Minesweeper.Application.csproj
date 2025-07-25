@@ -17,7 +17,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Features\" />
+	  <Folder Include="Features\Minesweeper\Queries\" />
 	</ItemGroup>
 
 </Project>
