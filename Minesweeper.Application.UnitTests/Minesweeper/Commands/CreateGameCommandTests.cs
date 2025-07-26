@@ -31,6 +31,5 @@ namespace Minesweeper.Application.UnitTests.Minesweeper.Commands
 
             Assert.IsType<Guid>(result);
         }
-
     }
 }

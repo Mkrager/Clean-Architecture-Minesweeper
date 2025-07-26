@@ -114,8 +114,7 @@ namespace Minesweeper.Infrastructure.Services
 
         private Game GetGame(Guid gameId)
         {
-            if (!_cache.TryGetValue(gameId, out Game game))
-                throw new Exception("Game noy found");
+            _cache.TryGetValue(gameId, out Game game);
             return game;
         }
     }
