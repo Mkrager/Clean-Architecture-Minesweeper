@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Minesweeper.Application.Features.Minesweeper.Commands.CreateGame;
 using Minesweeper.Application.Features.Minesweeper.Commands.OpenCell;
+using Minesweeper.Application.Features.Minesweeper.Commands.ToggleFlag;
 using Minesweeper.Application.Features.Minesweeper.Queries.GetGameState;
 
 namespace Minesweeper.Api.Controllers
@@ -19,7 +20,7 @@ namespace Minesweeper.Api.Controllers
             return Ok(responce);
         }
 
-        [HttpPut(Name = "OpenCell")]
+        [HttpPut("open-cell", Name = "OpenCell")]
         public async Task<ActionResult<OpenCellResponse>> OpenCell
             ([FromBody] OpenCellCommand openCellCommand)
         {
@@ -27,6 +28,16 @@ namespace Minesweeper.Api.Controllers
 
             return Ok(responce);
         }
+
+        [HttpPut("toggle-flag", Name = "ToggleFlag")]
+        public async Task<ActionResult<ToggleFlagResponse>> ToggleFlag
+            ([FromBody] ToggleFlagCommand toggleFlagCommand)
+        {
+            var responce = await mediator.Send(toggleFlagCommand);
+
+            return Ok(responce);
+        }
+
 
         [HttpGet("{id}", Name = "GetGameById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
