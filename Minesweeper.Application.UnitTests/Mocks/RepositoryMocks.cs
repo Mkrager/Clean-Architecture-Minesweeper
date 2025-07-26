@@ -1,5 +1,6 @@
 ﻿using Minesweeper.Application.Contracts.Infrastructure;
 using Minesweeper.Application.DTOs;
+using Minesweeper.Application.Features.Minesweeper.Commands.OpenCell;
 using Moq;
 
 namespace Minesweeper.Application.UnitTests.Mocks
@@ -32,6 +33,27 @@ namespace Minesweeper.Application.UnitTests.Mocks
                             IsOpened = false,
                             X = 0,
                             Y = 1
+                        }
+                    }
+                });
+
+            mockService.Setup(service => service.OpenCellAsync(
+                It.IsAny<Guid>(),
+                It.IsAny<int>(),
+                It.IsAny<int>()))
+                .ReturnsAsync(new OpenCellResult()
+                {
+                    Status = 0,
+                    NewlyOpenedCells = new List<CellDto>
+                    {
+                        new CellDto
+                        {
+                            AdjacentMines = 1,
+                            HasFlag = false,
+                            HasMine = false,
+                            IsOpened = true,
+                            X = 0,
+                            Y = 2
                         }
                     }
                 });

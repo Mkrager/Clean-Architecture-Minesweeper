@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Minesweeper.Application.Features.Minesweeper.Commands.CreateGame;
+using Minesweeper.Application.Features.Minesweeper.Commands.OpenCell;
 using Minesweeper.Application.Features.Minesweeper.Queries.GetGameState;
 
 namespace Minesweeper.Api.Controllers
@@ -14,6 +15,15 @@ namespace Minesweeper.Api.Controllers
             ([FromBody] CreateGameCommand createCategoryCommand)
         {
             var responce = await mediator.Send(createCategoryCommand);
+
+            return Ok(responce);
+        }
+
+        [HttpPut(Name = "OpenCell")]
+        public async Task<ActionResult<OpenCellResponse>> OpenCell
+            ([FromBody] OpenCellCommand openCellCommand)
+        {
+            var responce = await mediator.Send(openCellCommand);
 
             return Ok(responce);
         }
