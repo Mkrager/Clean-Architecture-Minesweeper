@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using Minesweeper.Application.Contracts.Infrastructure;
 
 namespace Minesweeper.Application.Features.Minesweeper.Commands.CreateGame

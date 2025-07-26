@@ -23,7 +23,7 @@ namespace Minesweeper.Api
             {
                 options.AddPolicy("Open", policy =>
                 {
-                    policy.WithOrigins("")
+                    policy.WithOrigins("https://localhost:7057")
                     .AllowAnyHeader()
                     .AllowAnyMethod();
                 });
