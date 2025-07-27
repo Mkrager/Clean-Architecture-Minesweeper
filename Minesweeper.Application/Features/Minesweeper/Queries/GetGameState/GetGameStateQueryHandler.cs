@@ -18,7 +18,7 @@ namespace Minesweeper.Application.Features.Minesweeper.Queries.GetGameState
 
         public async Task<GameStateVm> Handle(GetGameStateQuery request, CancellationToken cancellationToken)
         {
-            var state = await _minesweeperService.GetGameStateAsync(request.GameId);
+            var state = (await _minesweeperService.GetGameStateAsync(request.GameId));
 
             if (state == null)
                 throw new NotFoundException(nameof(Game), request.GameId);

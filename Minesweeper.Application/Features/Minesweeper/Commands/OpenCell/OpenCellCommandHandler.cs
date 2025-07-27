@@ -16,7 +16,7 @@ namespace Minesweeper.Application.Features.Minesweeper.Commands.OpenCell
         public async Task<OpenCellResponse> Handle(OpenCellCommand request, CancellationToken cancellationToken)
         {
             var result = await _minesweeperService.OpenCellAsync
-                (request.GameId, request.Y, request.Y);
+                (request.GameId, request.X, request.Y);
 
             return _mapper.Map<OpenCellResponse>(result);
         }

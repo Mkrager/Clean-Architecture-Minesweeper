@@ -16,8 +16,8 @@ namespace Minesweeper.Api.Controllers
         {
             var responce = await mediator.Send(new CreateGameCommand()
             {
-                Height = 5,
-                Width = 5,
+                Height = 10,
+                Width = 10,
                 TotalMines = 10
             });
 
@@ -46,7 +46,7 @@ namespace Minesweeper.Api.Controllers
         [HttpGet("{id}", Name = "GetGameById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<GameStateVm>> GetCourseById(Guid id)
+        public async Task<ActionResult<GameStateVm>> GetGameById(Guid id)
         {
             var getGameStateQuery = new GetGameStateQuery() { GameId = id };
             return Ok(await mediator.Send(getGameStateQuery));
