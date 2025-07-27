@@ -67,18 +67,6 @@ function updateBoard(cells, gameOver = false, explodedX = null, explodedY = null
         const td = document.querySelector(`td[data-x='${cell.x}'][data-y='${cell.y}']`);
         if (!td) return;
 
-        if (gameOver && cell.hasMine) {
-            td.classList.remove('closed');
-            td.classList.add('opened');
-
-            if (cell.x === explodedX && cell.y === explodedY) {
-                td.innerHTML = `<img src="/lib/cells/blast.svg" alt="exploded" width="24" height="24" />`;
-            } else {
-                td.innerHTML = `<img src="/lib/cells/cellmine.svg" alt="blast" width="24" height="24" />`;
-            }
-
-            return;
-        }
         if (cell.isOpened) {
             td.classList.remove('closed');
             td.classList.add('opened');
@@ -90,13 +78,40 @@ function updateBoard(cells, gameOver = false, explodedX = null, explodedY = null
             } else {
                 td.innerHTML = `<img src="/lib/cells/cell${cell.adjacentMines}.svg" alt="cell${cell.adjacentMines}" width="24" height="24" />`;
             }
+            return;
         }
-        else if (cell.hasFlag) {
+
+        if (gameOver) {
+            if (cell.hasMine) {
+                td.classList.remove('closed');
+                td.classList.add('opened');
+
+                if (cell.x === explodedX && cell.y === explodedY) {
+                    td.innerHTML = `<img src="/lib/cells/blast.svg" alt="exploded" width="24" height="24" />`;
+                } else {
+                    td.innerHTML = `<img src="/lib/cells/cellmine.svg" alt="blast" width="24" height="24" />`;
+                }
+                return;
+            }
+
+            if (cell.hasFlag && !cell.hasMine) {
+                td.classList.remove('opened');
+                td.classList.add('closed');
+                td.innerHTML = `<img src="/lib/cells/falsemine.svg" alt="falsemine" width="24" height="24" />`;
+                return;
+            }
+
+            td.classList.remove('opened');
+            td.classList.add('closed');
+            td.innerHTML = `<img src="/lib/cells/cellup.svg" alt="Closed" width="24" height="24" />`;
+            return;
+        }
+
+        if (cell.hasFlag) {
             td.classList.remove('opened');
             td.classList.add('closed');
             td.innerHTML = `<img src="/lib/cells/cellflag.svg" alt="Flag" width="24" height="24" />`;
-        }
-        else {
+        } else {
             td.classList.remove('opened');
             td.classList.add('closed');
             td.innerHTML = `<img src="/lib/cells/cellup.svg" alt="Closed" width="24" height="24" />`;
