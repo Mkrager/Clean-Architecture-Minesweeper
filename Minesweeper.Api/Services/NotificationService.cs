@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Minesweeper.Api.Hubs;
 using Minesweeper.Application.Contracts.Infrastructure;
+
 namespace Minesweeper.Api.Services
 {
     public class NotificationService : INotificationService
@@ -11,9 +12,9 @@ namespace Minesweeper.Api.Services
             _hubContext = hubContext;
         }
 
-        public Task NotifyAsync<T>(T result)
+        public Task NotifyAsync<T>(Guid gameId, T result)
         {
-            return _hubContext.Clients.All.SendAsync("GameStateUpdated", result);
+            return _hubContext.Clients.Group(gameId.ToString()).SendAsync("GameStateUpdated", result);
         }
     }
 }

@@ -7,7 +7,11 @@ connection.on("GameStateUpdated", function (gameState) {
     updateBoard(gameState.updatedCell);
 });
 
-connection.start();
+connection.start()
+    .then(() => {
+        return connection.invoke("JoinGameGroup", window.gameId);
+    })
+    .catch(err => console.error("SignalR Connection Error:", err));
 
 document.getElementById('game-board').addEventListener('click', function (e) {
     const td = e.target.closest('td.closed');

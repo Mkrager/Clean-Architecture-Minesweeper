@@ -2,6 +2,6 @@
 {
     public interface INotificationService
     {
-        Task NotifyAsync<T>(T result);
+        Task NotifyAsync<T>(Guid gameId, T result);
     }
 }

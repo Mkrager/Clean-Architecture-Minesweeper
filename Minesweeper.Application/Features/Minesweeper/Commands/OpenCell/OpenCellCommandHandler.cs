@@ -20,7 +20,7 @@ namespace Minesweeper.Application.Features.Minesweeper.Commands.OpenCell
             var result = await _minesweeperService.OpenCellAsync
                 (request.GameId, request.X, request.Y);
 
-            await _notificationService.NotifyAsync(result);
+            await _notificationService.NotifyAsync(request.GameId, result);
 
             return _mapper.Map<OpenCellResponse>(result);
         }
