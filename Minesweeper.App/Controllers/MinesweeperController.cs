@@ -12,7 +12,8 @@ namespace Minesweeper.App.Controllers
             _minesweeperService = minesweeperService;
         }
 
-        public async Task<IActionResult> Start()  
+        [HttpGet]
+        public async Task<IActionResult> Game()  
         {
             var game = await _minesweeperService.CreateSmallGame();
 
@@ -21,25 +22,21 @@ namespace Minesweeper.App.Controllers
             return View(gameState);
         }
 
-        public async Task<IActionResult> Continue(Guid gameId)
+        [HttpPut]
+        public async Task<IActionResult> OpenCell([FromBody] OpenCellRequest openCellRequest)
         {
-            var gameState = await _minesweeperService.GetGameState(gameId);
+            await _minesweeperService.OpenCell(openCellRequest);
 
-            return View(gameState);
+            return Ok();
         }
-        [HttpPost]
-        public async Task<IActionResult> OpenCell(Guid gameId, int x, int y)
+
+        [HttpPut]
+        public async Task<IActionResult> ToggleFlag([FromBody] ToggleFlagRequest toggleFlagRequest)
         {
-            var response = await _minesweeperService.OpenCell(new OpenCellRequest()
-            {
-                GameId = gameId,
-                X = x,
-                Y = y
-            });
+            var res = await _minesweeperService.ToggleFlag(toggleFlagRequest);
 
-            var gameState = await _minesweeperService.GetGameState(gameId);
-
-            return RedirectToAction("Continue", "Minesweeper", new { gameId = gameId});
+            return Ok();
         }
+
     }
 }

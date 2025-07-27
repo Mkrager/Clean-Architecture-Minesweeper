@@ -31,7 +31,8 @@ namespace Minesweeper.Api
                 {
                     policy.WithOrigins("https://localhost:7057")
                     .AllowAnyHeader()
-                    .AllowAnyMethod();
+                    .AllowAnyMethod()
+                    .AllowCredentials();
                 });
             });
 

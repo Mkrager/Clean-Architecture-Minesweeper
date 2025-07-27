@@ -1,6 +1,5 @@
 ﻿using Minesweeper.App.Contracts;
 using Minesweeper.App.ViewModels;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 
@@ -72,6 +71,33 @@ namespace Minesweeper.App.Services
             }
         }
 
+        public async Task<ToggleFlagVm> ToggleFlag(ToggleFlagRequest toggleFlagRequest)
+        {
+            try
+            {
+                var request = new HttpRequestMessage(HttpMethod.Put, $"https://localhost:7171/api/minesweeper/toggle-flag")
+                {
+                    Content = new StringContent(JsonSerializer.Serialize(toggleFlagRequest), Encoding.UTF8, "application/json")
+                };
+
+
+                var response = await _httpClient.SendAsync(request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+
+                    var toggleFlag = JsonSerializer.Deserialize<ToggleFlagVm>(responseContent, _jsonOptions);
+
+                    return toggleFlag;
+                }
+                return new ToggleFlagVm();
+            }
+            catch (Exception ex)
+            {
+                return new ToggleFlagVm();
+            }
+        }
         public async Task<GameStateViewModel> GetGameState(Guid gameId)
         {
             var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7171/api/minesweeper/{gameId}");
