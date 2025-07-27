@@ -19,11 +19,14 @@ namespace Minesweeper.App.Services
                 PropertyNameCaseInsensitive = true
             };
         }
-        public async Task<Guid> CreateSmallGame()
+        public async Task<Guid> CreateGame(CreateGameRequest createGameRequest)
         {
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Post, $"https://localhost:7171/api/minesweeper/small-game");
+                var request = new HttpRequestMessage(HttpMethod.Post, $"https://localhost:7171/api/minesweeper")
+                {
+                    Content = new StringContent(JsonSerializer.Serialize(createGameRequest), Encoding.UTF8, "application/json")
+                };
 
                 var response = await _httpClient.SendAsync(request);
 

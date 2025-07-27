@@ -1,13 +1,11 @@
 ﻿@using Minesweeper.App.ViewModels
 @model GameStateViewModel
 
-<h2 style="text-align:center;">Easy</h2>
-
 <table id="game-board">
-    @for (int y = 0; y < Model.Width; y++)
+    @for (int y = 0; y < Model.Height; y++)
     {
         <tr>
-            @for (int x = 0; x < Model.Height; x++)
+            @for (int x = 0; x < Model.Width; x++)
             {
                 var cell = Model.Cells.FirstOrDefault(c => c.X == x && c.Y == y);
                 if (cell != null)

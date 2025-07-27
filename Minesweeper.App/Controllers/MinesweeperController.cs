@@ -13,9 +13,14 @@ namespace Minesweeper.App.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Game()  
+        public async Task<IActionResult> Game(int height, int width, int totalMines)  
         {
-            var game = await _minesweeperService.CreateSmallGame();
+            var game = await _minesweeperService.CreateGame(new CreateGameRequest()
+            {
+                Height = height,
+                Width = width,  
+                TotalMines = totalMines
+            });
 
             var gameState = await _minesweeperService.GetGameState(game);
 

@@ -1,3 +1,5 @@
 ﻿<div class="start-container">
-    <a asp-controller="Minesweeper" asp-action="Game" class="start-button">Start game</a>
+    <a asp-controller="Minesweeper" asp-action="Game" asp-route-height="10" asp-route-width="10" asp-route-totalMines="10" class="start-button">Easy</a>
+    <a asp-controller="Minesweeper" asp-action="Game" asp-route-height="16" asp-route-width="16" asp-route-totalMines="25" class="start-button">Medium</a>
+    <a asp-controller="Minesweeper" asp-action="Game" asp-route-height="16" asp-route-width="30" asp-route-totalMines="99" class="start-button">Hard</a>
 </div>

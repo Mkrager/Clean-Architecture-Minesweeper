@@ -4,7 +4,7 @@ namespace Minesweeper.App.Contracts
 {
     public interface IMinesweeperService
     {
-        Task<Guid> CreateSmallGame();
+        Task<Guid> CreateGame(CreateGameRequest createGameRequest);
         Task<GameStateViewModel> GetGameState(Guid gameId);
         Task<OpenCellVm> OpenCell(OpenCellRequest openCellRequest);
         Task<ToggleFlagVm> ToggleFlag(ToggleFlagRequest toggleFlagRequest);

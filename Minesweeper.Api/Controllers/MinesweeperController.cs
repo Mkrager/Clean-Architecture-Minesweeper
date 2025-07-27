@@ -11,15 +11,10 @@ namespace Minesweeper.Api.Controllers
     [ApiController]
     public class MinesweeperController(IMediator mediator) : Controller
     {
-        [HttpPost("small-game", Name = "CreateSmallGame")]
-        public async Task<ActionResult<Guid>> CreateGame()
+        [HttpPost(Name = "CreateSmallGame")]
+        public async Task<ActionResult<Guid>> CreateGame([FromBody] CreateGameCommand createGameCommand)
         {
-            var responce = await mediator.Send(new CreateGameCommand()
-            {
-                Height = 10,
-                Width = 10,
-                TotalMines = 10
-            });
+            var responce = await mediator.Send(createGameCommand);
 
             return Ok(responce);
         }
