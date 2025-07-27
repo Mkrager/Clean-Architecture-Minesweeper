@@ -22,12 +22,20 @@ namespace Minesweeper.App.Controllers
             return View(gameState);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetGameState(Guid gameId)
+        {
+            var result = await _minesweeperService.GetGameState(gameId);
+
+            return Ok(result);
+        }
+
         [HttpPut]
         public async Task<IActionResult> OpenCell([FromBody] OpenCellRequest openCellRequest)
         {
-            await _minesweeperService.OpenCell(openCellRequest);
+            var result = await _minesweeperService.OpenCell(openCellRequest);
 
-            return Ok();
+            return Ok(result);
         }
 
         [HttpPut]
