@@ -5,6 +5,7 @@ using Minesweeper.Api.Middlewares;
 using Minesweeper.Api.Hubs;
 using Minesweeper.Application.Contracts.Infrastructure;
 using Minesweeper.Api.Services;
+using Minesweeper.Persistence;
 
 namespace Minesweeper.Api
 {
@@ -17,6 +18,7 @@ namespace Minesweeper.Api
 
             builder.Services.AddApplicationServices();
             builder.Services.AddInfrastructureServices();
+            builder.Services.AddPersistenceServices(builder.Configuration);
 
             builder.Services.AddHttpContextAccessor();
 

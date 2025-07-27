@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>d7039d38-7cb8-4a06-9539-2721333f7e86</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Minesweeper.Application\Minesweeper.Application.csproj" />
     <ProjectReference Include="..\Minesweeper.Infrastructure\Minesweeper.Infrastructure.csproj" />
+    <ProjectReference Include="..\Minesweeper.Persistence\Minesweeper.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
