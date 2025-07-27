@@ -27,7 +27,7 @@ namespace Minesweeper.App.Controllers
 
             return View(gameState);
         }
-
+        [HttpPost]
         public async Task<IActionResult> OpenCell(Guid gameId, int x, int y)
         {
             var response = await _minesweeperService.OpenCell(new OpenCellRequest()

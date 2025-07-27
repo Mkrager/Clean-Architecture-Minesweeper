@@ -29,6 +29,11 @@ a {
     line-height: 0;
 }
 
+form {
+    margin: 0;
+    padding: 0;
+}
+
 img {
     display: block;
 }
