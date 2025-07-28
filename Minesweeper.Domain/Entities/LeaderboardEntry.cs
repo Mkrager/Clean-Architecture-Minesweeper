@@ -6,7 +6,5 @@ namespace Minesweeper.Domain.Entities
     {
         public string PlayerName { get; set; } = string.Empty;
         public TimeSpan Time { get; set; }
-        public DateTime AchievedAt { get; set; }
     }
-
 }

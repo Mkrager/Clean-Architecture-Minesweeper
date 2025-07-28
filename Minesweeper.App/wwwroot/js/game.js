@@ -17,7 +17,25 @@ connection.on("GameStateUpdated", function (gameState) {
             .catch(console.error);
 
         return;
+    } else if (gameState.status === 2) {
+        fetch("/LeaderboardEntry/create", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                gameId: window.gameId,
+                playerName: "Max"
+            })
+        })
+            .then(() => {
+                alert('You win');
+            })
+            .catch(err => {
+                console.error("Error while sending leaderboard entry:", err);
+            });
     }
+
 
     if (gameState.allCells) {
         updateBoard(gameState.allCells);

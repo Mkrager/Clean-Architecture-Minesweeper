@@ -9,6 +9,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 
 builder.Services.AddScoped<IMinesweeperService, MinesweeperService>();
+builder.Services.AddScoped<ILeaderboardEntryDataService, LeaderboardEntryDataService>();
 
 builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
 
