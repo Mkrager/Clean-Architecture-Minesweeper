@@ -13,7 +13,15 @@ namespace Minesweeper.App.Controllers
             _leaderboardEntryDataService = leaderboardEntryDataService;
         }
 
-        [HttpPost]
+        [HttpGet]
+        public async Task<IActionResult> List()
+        {
+            var list = await _leaderboardEntryDataService.GetLeaderbordList();
+
+            return View(list);
+        }
+
+            [HttpPost]
         public async Task<IActionResult> Create([FromBody] LeaderboardViewModel leaderboardViewModel)
         {
             var result = await _leaderboardEntryDataService.CreateLeaderboardEntry(leaderboardViewModel);

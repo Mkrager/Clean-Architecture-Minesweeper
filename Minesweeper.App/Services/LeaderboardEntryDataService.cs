@@ -54,5 +54,24 @@ namespace Minesweeper.App.Services
                 return Guid.Empty;
             }
         }
+
+        public async Task<List<LeaderbordListViewModel>> GetLeaderbordList()
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, $"{_baseUrl}/api/LeaderboardEntry");
+
+            var response = await _httpClient.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                var leaderbordList = JsonSerializer.Deserialize<List<LeaderbordListViewModel>>(responseContent, _jsonOptions);
+
+                return leaderbordList;
+            }
+
+            return new List<LeaderbordListViewModel>();
+        }
+
     }
 }
