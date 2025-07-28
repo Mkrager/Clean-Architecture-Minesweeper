@@ -1,4 +1,5 @@
-﻿using Minesweeper.App.Contracts;
+﻿using Microsoft.Extensions.Options;
+using Minesweeper.App.Contracts;
 using Minesweeper.App.ViewModels;
 using System.Text;
 using System.Text.Json;
@@ -9,8 +10,9 @@ namespace Minesweeper.App.Services
     {
         private readonly HttpClient _httpClient;
         private readonly JsonSerializerOptions _jsonOptions;
+        private readonly string _baseUrl;
 
-        public MinesweeperService(HttpClient httpClient)
+        public MinesweeperService(HttpClient httpClient, IOptions<ApiSettings> apiSettings)
         {
             _httpClient = httpClient;
 
@@ -18,12 +20,13 @@ namespace Minesweeper.App.Services
             {
                 PropertyNameCaseInsensitive = true
             };
+            _baseUrl = apiSettings.Value.BaseUrl;
         }
         public async Task<Guid> CreateGame(CreateGameRequest createGameRequest)
         {
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Post, $"https://localhost:7171/api/minesweeper")
+                var request = new HttpRequestMessage(HttpMethod.Post, $"{_baseUrl}/api/minesweeper")
                 {
                     Content = new StringContent(JsonSerializer.Serialize(createGameRequest), Encoding.UTF8, "application/json")
                 };
@@ -46,64 +49,9 @@ namespace Minesweeper.App.Services
             }
         }
 
-        public async Task<OpenCellVm> OpenCell(OpenCellRequest openCellRequest)
-        {
-            try
-            {
-                var request = new HttpRequestMessage(HttpMethod.Put, $"https://localhost:7171/api/minesweeper/open-cell")
-                {
-                    Content = new StringContent(JsonSerializer.Serialize(openCellRequest), Encoding.UTF8, "application/json")
-                };
-
-
-                var response = await _httpClient.SendAsync(request);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseContent = await response.Content.ReadAsStringAsync();
-
-                    var openState = JsonSerializer.Deserialize<OpenCellVm>(responseContent, _jsonOptions);
-
-                    return openState;
-                }
-                return new OpenCellVm();
-            }
-            catch (Exception ex)
-            {
-                return new OpenCellVm();
-            }
-        }
-
-        public async Task<ToggleFlagVm> ToggleFlag(ToggleFlagRequest toggleFlagRequest)
-        {
-            try
-            {
-                var request = new HttpRequestMessage(HttpMethod.Put, $"https://localhost:7171/api/minesweeper/toggle-flag")
-                {
-                    Content = new StringContent(JsonSerializer.Serialize(toggleFlagRequest), Encoding.UTF8, "application/json")
-                };
-
-
-                var response = await _httpClient.SendAsync(request);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseContent = await response.Content.ReadAsStringAsync();
-
-                    var toggleFlag = JsonSerializer.Deserialize<ToggleFlagVm>(responseContent, _jsonOptions);
-
-                    return toggleFlag;
-                }
-                return new ToggleFlagVm();
-            }
-            catch (Exception ex)
-            {
-                return new ToggleFlagVm();
-            }
-        }
         public async Task<GameStateViewModel> GetGameState(Guid gameId)
         {
-            var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7171/api/minesweeper/{gameId}");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"{_baseUrl}/api/minesweeper/{gameId}");
 
             var response = await _httpClient.SendAsync(request);
 
@@ -118,7 +66,5 @@ namespace Minesweeper.App.Services
 
             return new GameStateViewModel();
         }
-
-
     }
 }

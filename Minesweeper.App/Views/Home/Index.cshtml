@@ -1,5 +1,22 @@
 ﻿<div class="start-container">
-    <a asp-controller="Minesweeper" asp-action="Game" asp-route-height="10" asp-route-width="10" asp-route-totalMines="10" class="start-button">Easy</a>
-    <a asp-controller="Minesweeper" asp-action="Game" asp-route-height="16" asp-route-width="16" asp-route-totalMines="25" class="start-button">Medium</a>
-    <a asp-controller="Minesweeper" asp-action="Game" asp-route-height="16" asp-route-width="30" asp-route-totalMines="99" class="start-button">Hard</a>
+    <form asp-controller="Minesweeper" asp-action="Game" method="post" class="start-form">
+        <input type="hidden" name="height" value="10" />
+        <input type="hidden" name="width" value="10" />
+        <input type="hidden" name="totalMines" value="10" />
+        <button type="submit" class="start-button">Easy</button>
+    </form>
+
+    <form asp-controller="Minesweeper" asp-action="Game" method="post" class="start-form">
+        <input type="hidden" name="height" value="16" />
+        <input type="hidden" name="width" value="16" />
+        <input type="hidden" name="totalMines" value="25" />
+        <button type="submit" class="start-button">Medium</button>
+    </form>
+
+    <form asp-controller="Minesweeper" asp-action="Game" method="post" class="start-form">
+        <input type="hidden" name="height" value="16" />
+        <input type="hidden" name="width" value="30" />
+        <input type="hidden" name="totalMines" value="99" />
+        <button type="submit" class="start-button">Hard</button>
+    </form>
 </div>

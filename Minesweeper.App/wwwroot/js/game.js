@@ -2,7 +2,23 @@
     .withUrl("https://localhost:7171/hub/notifications")
     .build();
 
+let gameOverHandled = false;
+
 connection.on("GameStateUpdated", function (gameState) {
+    if (gameState.status === 1 && !gameOverHandled) {
+        gameOverHandled = true;
+
+        connection.invoke("GetGameState", window.gameId)
+            .then(fullState => {
+                if (fullState && fullState.cells) {
+                    updateBoard(fullState.cells, true, fullState.explodedX, fullState.explodedY);
+                }
+            })
+            .catch(console.error);
+
+        return;
+    }
+
     if (gameState.allCells) {
         updateBoard(gameState.allCells);
     } else {
@@ -28,20 +44,8 @@ document.getElementById('game-board').addEventListener('click', function (e) {
     const x = parseInt(td.getAttribute('data-x'), 10);
     const y = parseInt(td.getAttribute('data-y'), 10);
 
-    fetch(`/minesweeper/openCell`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ gameId: window.gameId, x, y })
-    })
-        .then(res => res.json())
-        .then(result => {
-            if (result.status === 1) {
-                fetch(`/minesweeper/getGameState?gameId=${window.gameId}`)
-                    .then(res => res.json())
-                    .then(fullState => updateBoard(fullState.cells, true, x, y));
-            }
-        })
-        .catch(console.error);
+
+    connection.invoke("OpenCell", window.gameId, x, y).catch(console.error);
 });
 
 document.getElementById('game-board').addEventListener('contextmenu', function (e) {
@@ -53,11 +57,7 @@ document.getElementById('game-board').addEventListener('contextmenu', function (
     const x = parseInt(td.getAttribute('data-x'), 10);
     const y = parseInt(td.getAttribute('data-y'), 10);
 
-    fetch('/minesweeper/toggleFlag', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ gameId: window.gameId, x, y })
-    }).catch(console.error);
+    connection.invoke("ToggleFlag", window.gameId, x, y).catch(console.error);
 });
 
 function updateBoard(cells, gameOver = false, explodedX = null, explodedY = null) {

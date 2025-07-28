@@ -10,15 +10,10 @@ namespace Minesweeper.Application.Features.Minesweeper.Queries.GetGameState
     {
         private readonly IMinesweeperService _minesweeperService;
         private readonly IMapper _mapper;
-        private readonly INotificationService _notificationService;
-        public GetGameStateQueryHandler(
-            IMinesweeperService minesweeperService, 
-            IMapper mapper,
-            INotificationService notificationService)
+        public GetGameStateQueryHandler(IMinesweeperService minesweeperService, IMapper mapper)
         {
             _minesweeperService = minesweeperService;
             _mapper = mapper;
-            _notificationService = notificationService;
         }
 
         public async Task<GameStateVm> Handle(GetGameStateQuery request, CancellationToken cancellationToken)
@@ -27,8 +22,6 @@ namespace Minesweeper.Application.Features.Minesweeper.Queries.GetGameState
 
             if (state == null)
                 throw new NotFoundException(nameof(Game), request.GameId);
-
-            await _notificationService.NotifyAsync(request.GameId, state);
 
             return _mapper.Map<GameStateVm>(state);
         }

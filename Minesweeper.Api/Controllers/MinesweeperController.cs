@@ -46,6 +46,5 @@ namespace Minesweeper.Api.Controllers
             var getGameStateQuery = new GetGameStateQuery() { GameId = id };
             return Ok(await mediator.Send(getGameStateQuery));
         }
-
     }
 }

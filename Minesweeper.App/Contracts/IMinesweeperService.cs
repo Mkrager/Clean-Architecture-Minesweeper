@@ -6,6 +6,5 @@ namespace Minesweeper.App.Contracts
     {
         Task<Guid> CreateGame(CreateGameRequest createGameRequest);
         Task<GameStateViewModel> GetGameState(Guid gameId);
-        Task<ToggleFlagVm> ToggleFlag(ToggleFlagRequest toggleFlagRequest);
     }
 }

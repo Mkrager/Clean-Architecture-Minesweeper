@@ -4,7 +4,6 @@ using Minesweeper.Application;
 using Minesweeper.Api.Middlewares;
 using Minesweeper.Api.Hubs;
 using Minesweeper.Application.Contracts.Infrastructure;
-using Minesweeper.Api.Services;
 using Minesweeper.Persistence;
 
 namespace Minesweeper.Api
@@ -23,7 +22,6 @@ namespace Minesweeper.Api
             builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddSignalR();
-            builder.Services.AddScoped<INotificationService, NotificationService>();
 
             builder.Services.AddControllers();
 
