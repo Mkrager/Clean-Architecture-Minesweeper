@@ -1,10 +1,11 @@
-﻿namespace Minesweeper.Domain.Entities
+﻿using Minesweeper.Domain.Common;
+
+namespace Minesweeper.Domain.Entities
 {
-    public class LeaderboardEntry
+    public class LeaderboardEntry : CreatableEntity
     {
-        public Guid Id { get; set; }
         public string PlayerName { get; set; } = string.Empty;
-        public TimeSpan BestTime { get; set; }
+        public TimeSpan Time { get; set; }
         public DateTime AchievedAt { get; set; }
     }
 

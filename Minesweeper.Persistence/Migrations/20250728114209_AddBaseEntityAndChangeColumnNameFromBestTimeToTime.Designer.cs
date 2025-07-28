@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Minesweeper.Persistence;
 
@@ -11,9 +12,11 @@ using Minesweeper.Persistence;
 namespace Minesweeper.Persistence.Migrations
 {
     [DbContext(typeof(MinesweeperDbContext))]
-    partial class MinesweeperDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250728114209_AddBaseEntityAndChangeColumnNameFromBestTimeToTime")]
+    partial class AddBaseEntityAndChangeColumnNameFromBestTimeToTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
