@@ -2,7 +2,6 @@
 using Minesweeper.Application.Features.Minesweeper.Commands.CreateGame;
 using Minesweeper.Application.UnitTests.Mocks;
 using Moq;
-using System.Runtime.CompilerServices;
 
 namespace Minesweeper.Application.UnitTests.Minesweeper.Commands
 {

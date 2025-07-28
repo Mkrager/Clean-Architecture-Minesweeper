@@ -1,6 +1,8 @@
 ﻿using Minesweeper.Application.Contracts.Infrastructure;
+using Minesweeper.Application.Contracts.Persistance;
 using Minesweeper.Application.DTOs;
 using Minesweeper.Application.Features.Minesweeper.Commands.OpenCell;
+using Minesweeper.Domain.Entities;
 using Moq;
 
 namespace Minesweeper.Application.UnitTests.Mocks
@@ -77,7 +79,36 @@ namespace Minesweeper.Application.UnitTests.Mocks
                         }
                 });
 
+            mockService.Setup(service => service.GetGame(It.IsAny<Guid>()))
+                .Returns(new Game());
+                
+
+
             return mockService;
+        }
+
+        public static Mock<IAsyncRepository<LeaderboardEntry>> GetLeaderboardRepository()
+        {
+            var leaderboards = new List<LeaderboardEntry>
+            {
+                new LeaderboardEntry { Id= Guid.Parse("cade1266-42b5-43f2-a2fe-01727ffdac39"), PlayerName = "name" },
+                new LeaderboardEntry { Id= Guid.Parse("cade1266-42b5-43f2-a2fe-01727ffdac23"), PlayerName = "name2" }
+            };
+
+
+            var mockRepository = new Mock<IAsyncRepository<LeaderboardEntry>>();
+
+            mockRepository.Setup(r => r.ListAllAsync())
+                .ReturnsAsync(leaderboards);
+
+            mockRepository.Setup(r => r.AddAsync(It.IsAny<LeaderboardEntry>()))
+                .ReturnsAsync((LeaderboardEntry leaderboardEntry) =>
+                {
+                    leaderboards.Add(leaderboardEntry);
+                    return leaderboardEntry;
+                });
+
+            return mockRepository;
         }
     }
 }
