@@ -18,22 +18,7 @@ connection.on("GameStateUpdated", function (gameState) {
 
         return;
     } else if (gameState.status === 2) {
-        fetch("/LeaderboardEntry/create", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                gameId: window.gameId,
-                playerName: "Max"
-            })
-        })
-            .then(() => {
-                alert('You win');
-            })
-            .catch(err => {
-                console.error("Error while sending leaderboard entry:", err);
-            });
+        document.getElementById("winModal").classList.add("show");
     }
 
 
@@ -135,4 +120,30 @@ function updateBoard(cells, gameOver = false, explodedX = null, explodedY = null
             td.innerHTML = `<img src="/lib/cells/cellup.svg" alt="Closed" width="24" height="24" />`;
         }
     });
+}
+
+function submitPlayerName() {
+    const playerName = document.getElementById("playerNameInput").value.trim();
+    if (!playerName) {
+        alert("Enter your name");
+        return;
+    }
+
+    fetch("/LeaderboardEntry/create", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            gameId: window.gameId,
+            playerName: playerName
+        })
+    })
+        .then(() => {
+            alert('Your result saved!');
+            document.getElementById("winModal").style.display = "none";
+        })
+        .catch(err => {
+            console.error("Error:", err);
+        });
 }

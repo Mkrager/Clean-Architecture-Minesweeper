@@ -19,10 +19,6 @@
         <input type="hidden" name="totalMines" value="99" />
         <button type="submit" class="start-button">Hard</button>
     </form>
-    <form asp-controller="Minesweeper" asp-action="Game" method="post" class="start-form">
-        <input type="hidden" name="height" value="5" />
-        <input type="hidden" name="width" value="5" />
-        <input type="hidden" name="totalMines" value="1" />
-        <button type="submit" class="start-button">Hard</button>
-    </form>
+
+    <a asp-controller="leaderboardEntry" asp-action="list" class="start-form">Leaderboard</a>
 </div>

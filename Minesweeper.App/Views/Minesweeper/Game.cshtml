@@ -30,6 +30,16 @@
     }
 </table>
 
+<div id="winModal" class="modal">
+    <div>
+        <h2>You win!</h2>
+        <p>Enter your name for save results:</p>
+        <input type="text" id="playerNameInput" placeholder="Name" />
+        <br /><br />
+        <button onclick="submitPlayerName()">Sumbit</button>
+    </div>
+</div>
+
 <script>
     window.gameId = '@Model.GameId';
 </script>
