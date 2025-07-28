@@ -8,4 +8,6 @@ public class Game
     public Cell[,] Field { get; set; } = default!;
     public bool IsFirstMove { get; set; } = true;
     public int TotalMines { get; set; }
+    public DateTime StartTime { get; set; }
+    public DateTime EndTime { get; set; }
 }

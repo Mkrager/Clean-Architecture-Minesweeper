@@ -26,7 +26,8 @@ namespace Minesweeper.Infrastructure.Services
             {
                 Width = width,
                 Height = height,
-                TotalMines = mines
+                TotalMines = mines,
+                StartTime = DateTime.UtcNow
             };
             _engine.Initialize(game);
             var id = Guid.NewGuid();
@@ -73,6 +74,13 @@ namespace Minesweeper.Infrastructure.Services
             var game = GetGame(gameId);
             var result = _engine.OpenCell(game, x, y);
 
+            if (game.Status == GameStatus.Won)
+            {
+                game.EndTime = DateTime.UtcNow;
+
+                _cache.Set(gameId, game, _cacheOptions);
+            }
+
             var dto = new OpenCellResult
             {
                 Status = game.Status,
@@ -112,7 +120,7 @@ namespace Minesweeper.Infrastructure.Services
             return Task.FromResult(dto);
         }
 
-        private Game GetGame(Guid gameId)
+        public Game GetGame(Guid gameId)
         {
             _cache.TryGetValue(gameId, out Game game);
             return game;

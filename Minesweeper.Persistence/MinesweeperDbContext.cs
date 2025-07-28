@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Minesweeper.Domain.Common;
 using Minesweeper.Domain.Entities;
 
 namespace Minesweeper.Persistence
@@ -19,6 +20,21 @@ namespace Minesweeper.Persistence
             modelBuilder.Entity<LeaderboardEntry>()
                 .Property(e => e.CreatedAt)
                 .HasColumnName("AchievedAt");
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        {
+            foreach (var entry in ChangeTracker.Entries<CreatableEntity>())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.Entity.CreatedAt = DateTime.UtcNow;
+                        break;
+                }
+            }
+
+            return base.SaveChangesAsync(cancellationToken);
         }
     }
 }

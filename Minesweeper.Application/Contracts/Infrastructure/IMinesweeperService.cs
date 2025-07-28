@@ -8,5 +8,6 @@ namespace Minesweeper.Application.Contracts.Infrastructure
         Task<OpenCellResult> OpenCellAsync(Guid gameId, int x, int y);
         Task<ToggleFlagResult> ToggleFlagAsync(Guid gameId, int x, int y);
         Task<GameStateDto> GetGameStateAsync(Guid gameId);
+        Game GetGame(Guid gameId);
     }
 }
