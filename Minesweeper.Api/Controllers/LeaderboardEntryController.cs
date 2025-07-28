@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Minesweeper.Application.Features.LeaderboardEntries.Commands.CreateLeaderboadEntry;
+using Minesweeper.Application.Features.LeaderboardEntries.Queries.GetLeaderboardEntryList;
 
 namespace Minesweeper.Api.Controllers
 {
@@ -12,6 +13,14 @@ namespace Minesweeper.Api.Controllers
         public async Task<ActionResult<Guid>> CreateLeaderboardEntry([FromBody] CreateLeaderboadEntryCommand createLeaderboadEntryCommand)
         {
             var responce = await mediator.Send(createLeaderboadEntryCommand);
+
+            return Ok(responce);
+        }
+
+        [HttpGet(Name = "GetLeaderboard")]
+        public async Task<ActionResult<List<LeaderboardEntryListVm>>> GetLeaderboard()
+        {
+            var responce = await mediator.Send(new GetLeaderboardEntryListQuery());
 
             return Ok(responce);
         }

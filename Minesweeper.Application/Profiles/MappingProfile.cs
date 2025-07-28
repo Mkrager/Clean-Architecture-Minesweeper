@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using Minesweeper.Application.DTOs;
+using Minesweeper.Application.Features.LeaderboardEntries.Queries.GetLeaderboardEntryList;
 using Minesweeper.Application.Features.Minesweeper.Commands.OpenCell;
 using Minesweeper.Application.Features.Minesweeper.Commands.ToggleFlag;
 using Minesweeper.Application.Features.Minesweeper.Queries.GetGameState;
+using Minesweeper.Domain.Entities;
 
 namespace Minesweeper.Application.Profiles
 {
@@ -18,6 +20,8 @@ namespace Minesweeper.Application.Profiles
 
             CreateMap<ToggleFlagResult, ToggleFlagResponse>().ReverseMap();
             CreateMap<CellDto, ToggleFlagCellDto>().ReverseMap();
+
+            CreateMap<LeaderboardEntry, LeaderboardEntryListVm>().ReverseMap();
         }
     }
 }

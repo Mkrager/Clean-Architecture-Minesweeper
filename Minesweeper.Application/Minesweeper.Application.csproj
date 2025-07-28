@@ -16,8 +16,4 @@
 	  <ProjectReference Include="..\Minesweeper.Domain\Minesweeper.Domain.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Features\LeaderboardEntries\Queries\" />
-	</ItemGroup>
-
 </Project>
