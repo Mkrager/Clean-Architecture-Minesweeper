@@ -80,11 +80,31 @@ img {
     }
 
     .modal div {
-        background: white;
+        background-color: #C0C0C0;
         padding: 20px;
-        border-radius: 10px;
+        border: 2px solid #fff;
+        border-right-color: #808080;
+        border-bottom-color: #808080;
+        box-shadow: inset -2px -2px 0 #808080, inset 2px 2px 0 #fff;
+        border-radius: 4px;
         text-align: center;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        text-shadow: 1px 1px 0 #fff;
     }
+
+.name-input {
+    padding: 8px;
+    width: 80%;
+    font-size: 16px;
+    border: 2px solid #fff;
+    border-right-color: #808080;
+    border-bottom-color: #808080;
+    background-color: #F0F0F0;
+    box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #fff;
+    outline: none;
+    text-shadow: 1px 1px 0 #fff;
+    margin-top: 10px;
+}
 
 .leaderboard-container {
     max-width: 500px;
