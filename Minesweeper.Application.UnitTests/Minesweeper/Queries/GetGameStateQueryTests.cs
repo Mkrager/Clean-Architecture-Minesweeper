@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Minesweeper.Application.Contracts.Infrastructure;
+using Minesweeper.Application.Features.Minesweeper.Commands.ToggleFlag;
 using Minesweeper.Application.Features.Minesweeper.Queries.GetGameState;
 using Minesweeper.Application.Profiles;
 using Minesweeper.Application.UnitTests.Mocks;
@@ -27,11 +28,26 @@ namespace Minesweeper.Application.UnitTests.Minesweeper.Queries
         {
             var handler = new GetGameStateQueryHandler(_mockMinesweeperService.Object, _mapper);
 
-            var result = await handler.Handle(new GetGameStateQuery(), CancellationToken.None);
+            var result = await handler.Handle(new GetGameStateQuery() { GameId = Guid.Parse("a54043ff-59d4-46a4-9f72-1c0b0ed1ba55") }, CancellationToken.None);
 
             Assert.NotNull(result);
             Assert.NotNull(result.Cells);
             Assert.IsType<GameStateVm>(result);
+        }
+
+        [Fact]
+        public async void Validator_ShouldHaveError_WhenEmptyGuidId()
+        {
+            var validator = new GetGameStateQueryValidator();
+            var query = new GetGameStateQuery
+            {
+                GameId = Guid.Empty,
+            };
+
+            var result = await validator.ValidateAsync(query);
+
+            Assert.False(result.IsValid);
+            Assert.Contains(result.Errors, f => f.PropertyName == "GameId");
         }
     }
 }
