@@ -4,12 +4,17 @@
 <div class="leaderboard-container">
     <div class="leaderboard-title">Leaderboard</div>
 
+    <button>Easy</button>
+    <button>Medium</button>
+    <button>Hard</button>
+
     <table class="leaderboard-table">
         <thead>
             <tr>
                 <th>#</th>
                 <th>Player</th>
                 <th>Time</th>
+                <th>Game level</th>
             </tr>
         </thead>
         <tbody>
@@ -19,6 +24,7 @@
                     <td>@(i + 1)</td>
                     <td>@Model[i].PlayerName</td>
                     <td>@Model[i].Time.ToString(@"mm\:ss")</td>
+                    <td>@Model[i].GameLevel.ToString()</td>
                 </tr>
             }
         </tbody>

@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Minesweeper.Application.Contracts.Persistance;
+using Minesweeper.Domain.Entities;
+using System.Linq.Expressions;
 
 namespace Minesweeper.Persistence.Repositories
 {
@@ -19,6 +21,11 @@ namespace Minesweeper.Persistence.Repositories
         public async Task<IReadOnlyList<T>> ListAllAsync()
         {
             return await _dbContext.Set<T>().ToListAsync();
+        }
+
+        public async Task<List<T>> ListAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _dbContext.Set<T>().Where(predicate).ToListAsync();
         }
 
         public virtual async Task<T> AddAsync(T entity)

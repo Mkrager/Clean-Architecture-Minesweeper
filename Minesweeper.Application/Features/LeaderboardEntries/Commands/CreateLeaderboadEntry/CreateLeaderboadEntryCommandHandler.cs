@@ -29,6 +29,7 @@ namespace Minesweeper.Application.Features.LeaderboardEntries.Commands.CreateLea
             {
                 PlayerName = request.PlayerName,
                 Time = duration,
+                GameLevel = game.GameLevel
             });
 
             return leaderboadEntry.Id;

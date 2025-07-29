@@ -29,6 +29,14 @@ namespace Minesweeper.Infrastructure.Services
                 TotalMines = mines,
                 StartTime = DateTime.UtcNow
             };
+
+            if (mines <= 10)
+                game.GameLevel = GameLevel.Easy;
+            else if (mines <= 98)
+                game.GameLevel = GameLevel.Medium;
+            else
+                game.GameLevel = GameLevel.Hard;
+
             _engine.Initialize(game);
             var id = Guid.NewGuid();
             _cache.Set(id, game, _cacheOptions);
