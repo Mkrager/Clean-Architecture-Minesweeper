@@ -30,5 +30,22 @@ namespace Minesweeper.Application.UnitTests.Minesweeper.Commands
 
             Assert.IsType<Guid>(result);
         }
+
+        [Fact]
+        public async void Validator_ShouldHaveError_WhenHeightDontGratherThan0Empty()
+        {
+            var validator = new CreateGameCommandValidator();
+            var query = new CreateGameCommand
+            {
+                Height = 0,
+                TotalMines = 5,
+                Width = 5
+            };
+
+            var result = await validator.ValidateAsync(query);
+
+            Assert.False(result.IsValid);
+            Assert.Contains(result.Errors, f => f.PropertyName == "Height");
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using Minesweeper.Application.Exceptions;
+using System.Net;
 using System.Text.Json;
 
 namespace Minesweeper.Api.Middlewares
@@ -34,6 +35,10 @@ namespace Minesweeper.Api.Middlewares
 
             switch (exception)
             {
+                case ValidationException validationException:
+                    httpStatusCode = HttpStatusCode.BadRequest;
+                    result = JsonSerializer.Serialize(validationException.ValidationErrors);
+                    break;
                 case Exception:
                     httpStatusCode = HttpStatusCode.BadRequest;
                     break;
