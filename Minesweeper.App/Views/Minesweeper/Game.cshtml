@@ -64,7 +64,6 @@
             <td><img src="~/lib/border/leftright.svg" alt="leftright" width="24" height="24" /></td>
         </tr>
     }
-
     <tr>
         <td><img src="~/lib/border/bottomleft.svg" alt="bottomleft" width="24" height="24" /></td>
         @for (int x = 0; x < Model.Width; x++)
@@ -74,6 +73,10 @@
         <td><img src="~/lib/border/bottomright.svg" alt="bottomright" width="24" height="24" /></td>
     </tr>
 </table>
+
+<div class="button-container">
+    <button id="solveButton" class="start-button">Solve</button>
+</div>
 
 
 <div id="winModal" class="modal">

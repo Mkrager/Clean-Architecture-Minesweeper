@@ -6,6 +6,7 @@ let gameOverHandled = false;
 let isFirstMoveDone = false;
 let timerInterval = null;
 let seconds = 0;
+let solvedBySolver = false;
 
 updateCounter("mine-counter", window.totalMines);
 
@@ -23,11 +24,23 @@ connection.on("GameStateUpdated", function (gameState) {
             .catch(console.error);
 
         return;
-    } else if (gameState.status === 2) {
-        clearInterval(timerInterval);
-        document.getElementById("winModal").classList.add("show");
     }
 
+    if (gameState.status === 2) {
+        clearInterval(timerInterval);
+
+        if (!solvedBySolver) {
+            document.getElementById("winModal").classList.add("show");
+        } else {
+            connection.invoke("GetGameState", window.gameId)
+                .then(fullState => {
+                    if (fullState && fullState.cells) {
+                        updateBoard(fullState.cells, false);
+                    }
+                })
+                .catch(console.error);
+        }
+    }
 
     if (gameState.allCells) {
         updateBoard(gameState.allCells);
@@ -81,6 +94,12 @@ document.getElementById('game-board').addEventListener('contextmenu', function (
             setTimeout(updateRemainingMinesCounter, 50);
         })
         .catch(console.error);
+});
+
+document.getElementById("solveButton").addEventListener("click", function () {
+    solvedBySolver = true;
+    connection.invoke('Solve', window.gameId)
+        .catch(err => console.error("Solve error:", err));
 });
 
 function updateRemainingMinesCounter() {

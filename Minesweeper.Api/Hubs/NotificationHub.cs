@@ -1,15 +1,16 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.SignalR;
+using Minesweeper.Application.Contracts.Infrastructure;
 using Minesweeper.Application.Features.Minesweeper.Commands.OpenCell;
 using Minesweeper.Application.Features.Minesweeper.Commands.ToggleFlag;
 using Minesweeper.Application.Features.Minesweeper.Queries.GetGameState;
+using Minesweeper.Application.Features.Solver.Command.Solve;
 
 namespace Minesweeper.Api.Hubs
 {
     public class NotificationHub : Hub
     {
         private readonly IMediator _mediator;
-
         public NotificationHub(IMediator mediator)
         {
             _mediator = mediator;   
@@ -43,6 +44,16 @@ namespace Minesweeper.Api.Hubs
                 GameId = gameId,
                 X = x,
                 Y = y
+            });
+
+            await Clients.Group(gameId.ToString()).SendAsync("GameStateUpdated", result);
+        }
+
+        public async Task Solve(Guid gameId)
+        {
+            var result = await _mediator.Send(new SolveCommand()
+            {
+                GameId = gameId
             });
 
             await Clients.Group(gameId.ToString()).SendAsync("GameStateUpdated", result);
