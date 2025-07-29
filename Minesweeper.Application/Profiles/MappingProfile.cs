@@ -4,6 +4,7 @@ using Minesweeper.Application.Features.LeaderboardEntries.Queries.GetLeaderboard
 using Minesweeper.Application.Features.Minesweeper.Commands.OpenCell;
 using Minesweeper.Application.Features.Minesweeper.Commands.ToggleFlag;
 using Minesweeper.Application.Features.Minesweeper.Queries.GetGameState;
+using Minesweeper.Application.Features.Solver.Command.Solve;
 using Minesweeper.Domain.Entities;
 
 namespace Minesweeper.Application.Profiles
@@ -13,6 +14,9 @@ namespace Minesweeper.Application.Profiles
         public MappingProfile()
         {
             CreateMap<GameStateDto, GameStateVm>().ReverseMap();
+
+            CreateMap<GameStateDto, SolveCommandResponse>().ReverseMap();
+    
             CreateMap<GameStateCellDto, CellDto>().ReverseMap();
 
             CreateMap<OpenCellResult, OpenCellResponse>().ReverseMap();

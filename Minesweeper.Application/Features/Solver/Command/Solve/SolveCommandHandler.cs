@@ -1,0 +1,31 @@
+﻿using AutoMapper;
+using MediatR;
+using Minesweeper.Application.Contracts.Infrastructure;
+
+namespace Minesweeper.Application.Features.Solver.Command.Solve
+{
+    public class SolveCommandHandler : IRequestHandler<SolveCommand, SolveCommandResponse>
+    {
+        private readonly IMinesweeperSolver _minesweeperSolver;
+        private readonly IMinesweeperService _minesweeperService;
+        private readonly IMapper _mapper;
+        public SolveCommandHandler(IMinesweeperSolver minesweeperSolver, IMinesweeperService minesweeperService, IMapper mapper)
+        {
+            _minesweeperSolver = minesweeperSolver;
+            _minesweeperService = minesweeperService;
+            _mapper = mapper;
+        }
+        public async Task<SolveCommandResponse> Handle(SolveCommand request, CancellationToken cancellationToken)
+        {
+            var game = _minesweeperService.GetGame(request.GameId);
+
+            await _minesweeperService.OpenCellAsync(request.GameId, game.Width / 2, game.Width / 2);
+
+            _minesweeperSolver.Solve(game);
+
+            var result = await _minesweeperService.GetGameStateAsync(request.GameId);
+
+            return _mapper.Map<SolveCommandResponse>(result);
+        }
+    }
+}
