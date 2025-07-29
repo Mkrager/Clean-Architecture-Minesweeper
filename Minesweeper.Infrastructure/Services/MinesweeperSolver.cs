@@ -6,6 +6,7 @@ namespace Minesweeper.Infrastructure.Services
     public class MinesweeperSolver : IMinesweeperSolver
     {
         private Game _game = null!;
+
         public void Solve(Game game)
         {
             _game = game;
@@ -33,8 +34,7 @@ namespace Minesweeper.Infrastructure.Services
                                 mine.HasFlag = true;
                             moveMade = true;
                         }
-
-                        if (flagged == cell.AdjacentMines && hidden.Count > 0)
+                        else if (flagged == cell.AdjacentMines && hidden.Count > 0)
                         {
                             foreach (var safe in hidden)
                                 OpenCell(safe);
@@ -70,10 +70,9 @@ namespace Minesweeper.Infrastructure.Services
 
             if (cell.AdjacentMines == 0)
             {
-                var coords = GetCoords(cell);
-                foreach (var (x, y) in coords)
+                foreach (var (nx, ny) in GetCoords(cell))
                 {
-                    foreach (var neighbor in GetNeighbors(x, y))
+                    foreach (var neighbor in GetNeighbors(nx, ny))
                     {
                         if (!neighbor.IsOpened)
                             OpenCell(neighbor);
@@ -88,30 +87,6 @@ namespace Minesweeper.Infrastructure.Services
             }
         }
 
-        private List<Cell> GetNeighbors(int x, int y)
-        {
-            var neighbors = new List<Cell>();
-
-            for (int dx = -1; dx <= 1; dx++)
-            {
-                for (int dy = -1; dy <= 1; dy++)
-                {
-                    if (dx == 0 && dy == 0)
-                        continue;
-
-                    int nx = x + dx;
-                    int ny = y + dy;
-
-                    if (nx >= 0 && nx < _game.Width && ny >= 0 && ny < _game.Height)
-                    {
-                        neighbors.Add(_game.Field[nx, ny]);
-                    }
-                }
-            }
-
-            return neighbors;
-        }
-
         private bool CheckWin()
         {
             for (int x = 0; x < _game.Width; x++)
@@ -123,33 +98,33 @@ namespace Minesweeper.Infrastructure.Services
                         return false;
                 }
             }
-
             return true;
         }
 
-        private List<(int x, int y)> GetCoords(Cell target)
+        private List<Cell> GetNeighbors(int x, int y)
         {
-            var list = new List<(int, int)>();
-            for (int x = 0; x < _game.Width; x++)
+            var neighbors = new List<Cell>();
+
+            for (int dx = -1; dx <= 1; dx++)
             {
-                for (int y = 0; y < _game.Height; y++)
+                for (int dy = -1; dy <= 1; dy++)
                 {
-                    if (_game.Field[x, y] == target)
-                        list.Add((x, y));
+                    if (dx == 0 && dy == 0) continue;
+                    int nx = x + dx, ny = y + dy;
+                    if (nx >= 0 && ny >= 0 && nx < _game.Width && ny < _game.Height)
+                        neighbors.Add(_game.Field[nx, ny]);
                 }
             }
-            return list;
+            return neighbors;
         }
 
-        private List<Cell> GetNeighborsForCell(Cell cell)
+        private List<(int, int)> GetCoords(Cell target)
         {
-            var coords = GetCoords(cell);
-            var neighbors = new List<Cell>();
-            foreach (var (x, y) in coords)
-            {
-                neighbors.AddRange(GetNeighbors(x, y));
-            }
-            return neighbors.Distinct().ToList();
+            for (int x = 0; x < _game.Width; x++)
+                for (int y = 0; y < _game.Height; y++)
+                    if (_game.Field[x, y] == target)
+                        return new List<(int, int)> { (x, y) };
+            return new();
         }
 
         private Cell? GetBestGuessCell()
@@ -161,8 +136,7 @@ namespace Minesweeper.Infrastructure.Services
                 for (int y = 0; y < _game.Height; y++)
                 {
                     var cell = _game.Field[x, y];
-                    if (cell.IsOpened || cell.HasFlag)
-                        continue;
+                    if (cell.IsOpened || cell.HasFlag) continue;
 
                     var neighbors = GetNeighbors(x, y).Where(c => c.IsOpened).ToList();
                     if (neighbors.Count == 0)
@@ -171,33 +145,24 @@ namespace Minesweeper.Infrastructure.Services
                         continue;
                     }
 
-                    double riskSum = 0;
+                    double totalRisk = 0;
                     int count = 0;
-
                     foreach (var n in neighbors)
                     {
-                        var nNeighbors = GetNeighborsForCell(n);
-                        int flagged = nNeighbors.Count(c => c.HasFlag);
-                        int hidden = nNeighbors.Count(c => !c.IsOpened && !c.HasFlag);
+                        var adjacent = GetNeighborsForCell(n);
+                        int flagged = adjacent.Count(c => c.HasFlag);
+                        int hidden = adjacent.Count(c => !c.IsOpened && !c.HasFlag);
                         int minesLeft = n.AdjacentMines - flagged;
 
-                        if (hidden > 0 && nNeighbors.Contains(cell))
+                        if (hidden > 0 && adjacent.Contains(cell))
                         {
-                            double cellRisk = (double)minesLeft / hidden;
-                            riskSum += cellRisk;
+                            totalRisk += (double)minesLeft / hidden;
                             count++;
                         }
                     }
 
-                    if (count > 0)
-                    {
-                        double avgRisk = riskSum / count;
-                        candidates.Add((cell, avgRisk));
-                    }
-                    else
-                    {
-                        candidates.Add((cell, 0.5));
-                    }
+                    double avgRisk = count > 0 ? totalRisk / count : 0.5;
+                    candidates.Add((cell, avgRisk));
                 }
             }
 
@@ -205,6 +170,17 @@ namespace Minesweeper.Infrastructure.Services
                 return null;
 
             return candidates.OrderBy(c => c.risk).First().cell;
+        }
+
+        private List<Cell> GetNeighborsForCell(Cell cell)
+        {
+            var coords = GetCoords(cell);
+            var neighbors = new List<Cell>();
+            foreach (var (x, y) in coords)
+            {
+                neighbors.AddRange(GetNeighbors(x, y));
+            }
+            return neighbors.Distinct().ToList();
         }
     }
 }
