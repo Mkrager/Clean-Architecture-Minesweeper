@@ -49,6 +49,5 @@ namespace Minesweeper.Application.UnitTests.LeaderBoardEntry.Commands
             Assert.False(result.IsValid);
             Assert.Contains(result.Errors, f => f.PropertyName == "GameId");
         }
-
     }
 }

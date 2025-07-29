@@ -25,7 +25,7 @@ namespace Minesweeper.Application.UnitTests.LeaderBoardEntry.Queries
         }
 
         [Fact]
-        public async Task GetLeaderboardEntry_ReturnsLeaderboardEntry_()
+        public async Task GetLeaderboardEntry_ReturnsLeaderboardEntry()
         {
             var handler = new GetLeaderboardEntryListQueryHandler(_mockLeaderboardEntryRepository.Object, _mapper);
 
@@ -33,7 +33,6 @@ namespace Minesweeper.Application.UnitTests.LeaderBoardEntry.Queries
 
             Assert.NotNull(result);
             Assert.IsType<List<LeaderboardEntryListVm>>(result);
-        }
-
+        } 
     }
 }
