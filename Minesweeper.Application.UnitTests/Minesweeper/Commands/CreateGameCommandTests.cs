@@ -32,7 +32,7 @@ namespace Minesweeper.Application.UnitTests.Minesweeper.Commands
         }
 
         [Fact]
-        public async void Validator_ShouldHaveError_WhenHeightDontGratherThan0Empty()
+        public async void Validator_ShouldHaveError_WhenHeightDontGratherThan0()
         {
             var validator = new CreateGameCommandValidator();
             var query = new CreateGameCommand

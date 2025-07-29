@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Minesweeper.Application.Contracts.Infrastructure;
+using Minesweeper.Application.Features.Minesweeper.Commands.CreateGame;
 using Minesweeper.Application.Features.Minesweeper.Commands.OpenCell;
 using Minesweeper.Application.Profiles;
 using Minesweeper.Application.UnitTests.Mocks;
@@ -39,6 +40,23 @@ namespace Minesweeper.Application.UnitTests.Minesweeper.Commands
             Assert.IsType<OpenCellResponse>(result);
             Assert.NotNull(result);
             Assert.NotNull(result.NewlyOpenedCells);
+        }
+
+        [Fact]
+        public async void Validator_ShouldHaveError_WhenEmptyGuidID()
+        {
+            var validator = new OpenCellCommandValidator();
+            var query = new OpenCellCommand
+            {
+                GameId = Guid.Empty,
+                X = 0,
+                Y = 1
+            };
+
+            var result = await validator.ValidateAsync(query);
+
+            Assert.False(result.IsValid);
+            Assert.Contains(result.Errors, f => f.PropertyName == "GameId");
         }
 
     }
