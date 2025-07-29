@@ -3,10 +3,14 @@
     .build();
 
 let gameOverHandled = false;
+let isFirstMoveDone = false;
+let timerInterval = null;
+let seconds = 0;
 
 connection.on("GameStateUpdated", function (gameState) {
     if (gameState.status === 1 && !gameOverHandled) {
         gameOverHandled = true;
+        clearInterval(timerInterval);
 
         connection.invoke("GetGameState", window.gameId)
             .then(fullState => {
@@ -18,6 +22,7 @@ connection.on("GameStateUpdated", function (gameState) {
 
         return;
     } else if (gameState.status === 2) {
+        clearInterval(timerInterval);
         document.getElementById("winModal").classList.add("show");
     }
 
@@ -47,6 +52,10 @@ document.getElementById('game-board').addEventListener('click', function (e) {
     const x = parseInt(td.getAttribute('data-x'), 10);
     const y = parseInt(td.getAttribute('data-y'), 10);
 
+    if (!isFirstMoveDone) {
+        isFirstMoveDone = true;
+        startTimer();
+    }
 
     connection.invoke("OpenCell", window.gameId, x, y).catch(console.error);
 });
@@ -146,4 +155,44 @@ function submitPlayerName() {
         .catch(err => {
             console.error("Error:", err);
         });
+}
+
+function updateCounter(elementId, value) {
+    const str = value.toString().padStart(3, '0');
+    const container = document.getElementById(elementId);
+
+    const existingImgs = container.querySelectorAll('img');
+
+    if (existingImgs.length !== 3) {
+        container.innerHTML = '';
+        for (let char of str) {
+            const img = document.createElement('img');
+            img.src = `/lib/counter/counter${char}.svg`;
+            img.width = 24;
+            container.appendChild(img);
+        }
+        return;
+    }
+
+    for (let i = 0; i < 3; i++) {
+        const digit = str[i];
+        const img = existingImgs[i];
+        const newSrc = `/lib/counter/counter${digit}.svg`;
+
+        if (img.src !== location.origin + newSrc) {
+            img.src = newSrc;
+        }
+    }
+}
+
+
+updateCounter("timer-counter", 0);
+updateCounter("mine-counter", 10);
+
+function startTimer() {
+    if (timerInterval !== null) return;
+
+    timerInterval = setInterval(() => {
+        updateCounter("timer-counter", ++seconds);
+    }, 1000);
 }

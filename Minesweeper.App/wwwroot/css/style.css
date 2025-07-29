@@ -163,3 +163,30 @@ img {
     .back-button:hover {
         background-color: #D0D0D0;
     }
+
+.top-panel {
+    display: inline-block;
+    background-color: lightgray;
+}
+
+.flag-counter {
+    display: flex;
+}
+
+.timer-panel {
+    display: flex;
+    align-items: center;
+}
+
+.timer-counter {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.timer-element {
+    display: flex;
+    gap: 2px;
+}

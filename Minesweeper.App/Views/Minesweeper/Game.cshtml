@@ -1,10 +1,45 @@
 ﻿@using Minesweeper.App.ViewModels
 @model GameStateViewModel
 
+
+<div class="top-panel">
+    <div class="flag-counter">
+        <img src="~/lib/border/topleft.svg" width="24" height="24" />
+        @for (int x = 0; x < Model.Width; x++)
+        {
+            <img src="~/lib/border/topbottom.svg" width="24" height="24" />
+        }
+        <img src="~/lib/border/topright.svg" width="24" height="24" />
+    </div>
+
+    <div class="timer-panel">
+        <img src="~/lib/border/leftright.svg" width="24" height="60" />
+
+        <div class="timer-counter">
+            <div id="mine-counter" class="timer-element"></div>
+            <div id="timer-counter" class="timer-element"></div>
+        </div>
+
+        <img src="~/lib/border/leftright.svg" width="24" height="60" />
+    </div>
+</div>
+
+
 <table id="game-board">
+    <tr>
+        <td><img src="~/lib/border/middleleft.svg" alt="middleleft" width="24" height="24" /></td>
+        @for (int x = 0; x < Model.Width; x++)
+        {
+            <td><img src="~/lib/border/topbottom.svg" alt="topbottom" width="24" height="24" /></td>
+        }
+        <td><img src="~/lib/border/middleright.svg" alt="middleright" width="24" height="24" /></td>
+    </tr>
+
     @for (int y = 0; y < Model.Height; y++)
     {
         <tr>
+            <td><img src="~/lib/border/leftright.svg" alt="leftright" width="24" height="24" /></td>
+
             @for (int x = 0; x < Model.Width; x++)
             {
                 var cell = Model.Cells.FirstOrDefault(c => c.X == x && c.Y == y);
@@ -26,9 +61,21 @@
                     <td>NULL</td>
                 }
             }
+
+            <td><img src="~/lib/border/leftright.svg" alt="leftright" width="24" height="24" /></td>
         </tr>
     }
+
+    <tr>
+        <td><img src="~/lib/border/bottomleft.svg" alt="bottomleft" width="24" height="24" /></td>
+        @for (int x = 0; x < Model.Width; x++)
+        {
+            <td><img src="~/lib/border/topbottom.svg" alt="topbottom" width="24" height="24" /></td>
+        }
+        <td><img src="~/lib/border/bottomright.svg" alt="bottomright" width="24" height="24" /></td>
+    </tr>
 </table>
+
 
 <div id="winModal" class="modal">
     <div>
