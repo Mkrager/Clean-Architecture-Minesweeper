@@ -10,7 +10,7 @@ namespace Minesweeper.Infrastructure
         {
             services.AddTransient<IMinesweeperService, MinesweeperService>();
             services.AddTransient<IGameEngine, GameEngine>();
-            services.AddTransient<IMinesweeperSolver, MinesweeperSolver>();
+            services.AddTransient<IMinesweeperSolverService, MinesweeperSolver>();
 
             services.AddMemoryCache();
             return services;

@@ -6,10 +6,10 @@ namespace Minesweeper.Application.Features.Solver.Command.Solve
 {
     public class SolveCommandHandler : IRequestHandler<SolveCommand, SolveCommandResponse>
     {
-        private readonly IMinesweeperSolver _minesweeperSolver;
+        private readonly IMinesweeperSolverService _minesweeperSolver;
         private readonly IMinesweeperService _minesweeperService;
         private readonly IMapper _mapper;
-        public SolveCommandHandler(IMinesweeperSolver minesweeperSolver, IMinesweeperService minesweeperService, IMapper mapper)
+        public SolveCommandHandler(IMinesweeperSolverService minesweeperSolver, IMinesweeperService minesweeperService, IMapper mapper)
         {
             _minesweeperSolver = minesweeperSolver;
             _minesweeperService = minesweeperService;

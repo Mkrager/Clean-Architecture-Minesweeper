@@ -1,20 +1,23 @@
 ﻿using AutoMapper;
 using Minesweeper.Application.Contracts.Infrastructure;
-using Minesweeper.Application.Features.Minesweeper.Commands.OpenCell;
+using Minesweeper.Application.Features.Minesweeper.Commands.CreateGame;
+using Minesweeper.Application.Features.Solver.Command.Solve;
 using Minesweeper.Application.Profiles;
 using Minesweeper.Application.UnitTests.Mocks;
 using Moq;
 
-namespace Minesweeper.Application.UnitTests.Minesweeper.Commands
+namespace Minesweeper.Application.UnitTests.Solver.Commands
 {
-    public class OpenCellCommandTests
+    public class SolveCommandTests
     {
         private readonly Mock<IMinesweeperService> _mockMinesweeperService;
+        private readonly Mock<IMinesweeperSolverService> _mockMinesweeperSolverService;
         private readonly IMapper _mapper;
 
-        public OpenCellCommandTests()
+        public SolveCommandTests()
         {
             _mockMinesweeperService = RepositoryMocks.GetMinesweeperService();
+            _mockMinesweeperSolverService = RepositoryMocks.GetMinesweeperSolverService();
             var configuratinProvider = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<MappingProfile>();
@@ -23,33 +26,27 @@ namespace Minesweeper.Application.UnitTests.Minesweeper.Commands
         }
 
         [Fact]
-        public async Task Should_Open_Cell_Successfully_ReturnsOpenCellResponse()
+        public async Task Should_Solve_Game_Successfully()
         {
-            var handler = new OpenCellCommandHandler(_mapper, _mockMinesweeperService.Object);
+            var handler = new SolveCommandHandler(_mockMinesweeperSolverService.Object, _mockMinesweeperService.Object, _mapper);
 
-            var command = new OpenCellCommand
+            var command = new SolveCommand
             {
-                GameId = Guid.Parse("dd58fe30-c9b0-4999-9043-4a8af95d6046"),
-                X = 0,
-                Y = 2
+                GameId = Guid.Parse("b688451c-fc70-40e3-9eab-6a7b111eb82b"),
             };
 
             var result = await handler.Handle(command, CancellationToken.None);
 
-            Assert.IsType<OpenCellResponse>(result);
-            Assert.NotNull(result);
-            Assert.NotNull(result.NewlyOpenedCells);
+            Assert.IsType<SolveCommandResponse>(result);
         }
 
         [Fact]
         public async void Validator_ShouldHaveError_WhenEmptyGuidId()
         {
-            var validator = new OpenCellCommandValidator();
-            var query = new OpenCellCommand
+            var validator = new SolveCommandValidator();
+            var query = new SolveCommand
             {
-                GameId = Guid.Empty,
-                X = 0,
-                Y = 1
+                GameId = Guid.Empty
             };
 
             var result = await validator.ValidateAsync(query);
@@ -57,5 +54,6 @@ namespace Minesweeper.Application.UnitTests.Minesweeper.Commands
             Assert.False(result.IsValid);
             Assert.Contains(result.Errors, f => f.PropertyName == "GameId");
         }
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Minesweeper.Application.Contracts.Infrastructure
 {
-    public interface IMinesweeperSolver
+    public interface IMinesweeperSolverService
     {
         void Solve(Game game);
     }

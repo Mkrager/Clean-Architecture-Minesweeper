@@ -3,7 +3,7 @@ using Minesweeper.Domain.Entities;
 
 namespace Minesweeper.Infrastructure.Services
 {
-    public class MinesweeperSolver : IMinesweeperSolver
+    public class MinesweeperSolver : IMinesweeperSolverService
     {
         private Game _game = null!;
 

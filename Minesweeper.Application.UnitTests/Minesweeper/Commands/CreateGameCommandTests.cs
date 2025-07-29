@@ -8,7 +8,6 @@ namespace Minesweeper.Application.UnitTests.Minesweeper.Commands
     public class CreateGameCommandTests
     {
         private readonly Mock<IMinesweeperService> _mockMinesweeperService;
-
         public CreateGameCommandTests()
         {
             _mockMinesweeperService = RepositoryMocks.GetMinesweeperService();
