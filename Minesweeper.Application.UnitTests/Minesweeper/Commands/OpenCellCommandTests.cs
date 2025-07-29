@@ -43,7 +43,7 @@ namespace Minesweeper.Application.UnitTests.Minesweeper.Commands
         }
 
         [Fact]
-        public async void Validator_ShouldHaveError_WhenEmptyGuidID()
+        public async void Validator_ShouldHaveError_WhenEmptyGuidId()
         {
             var validator = new OpenCellCommandValidator();
             var query = new OpenCellCommand
@@ -58,6 +58,5 @@ namespace Minesweeper.Application.UnitTests.Minesweeper.Commands
             Assert.False(result.IsValid);
             Assert.Contains(result.Errors, f => f.PropertyName == "GameId");
         }
-
     }
 }
