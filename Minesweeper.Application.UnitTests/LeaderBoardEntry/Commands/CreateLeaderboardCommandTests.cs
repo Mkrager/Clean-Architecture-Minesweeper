@@ -2,6 +2,7 @@
 using Minesweeper.Application.Contracts.Persistance;
 using Minesweeper.Application.Features.LeaderboardEntries.Commands.CreateLeaderboadEntry;
 using Minesweeper.Application.Features.Minesweeper.Commands.CreateGame;
+using Minesweeper.Application.Features.Minesweeper.Queries.GetGameState;
 using Minesweeper.Application.UnitTests.Mocks;
 using Minesweeper.Domain.Entities;
 using Moq;
@@ -32,6 +33,21 @@ namespace Minesweeper.Application.UnitTests.LeaderBoardEntry.Commands
             var result = await handler.Handle(command, CancellationToken.None);
 
             Assert.IsType<Guid>(result);
+        }
+
+        [Fact]
+        public async void Validator_ShouldHaveError_WhenEmptyGuidId()
+        {
+            var validator = new CreateLeaderboadEntryCommandValidator();
+            var query = new CreateLeaderboadEntryCommand
+            {
+                GameId = Guid.Empty,
+            };
+
+            var result = await validator.ValidateAsync(query);
+
+            Assert.False(result.IsValid);
+            Assert.Contains(result.Errors, f => f.PropertyName == "GameId");
         }
 
     }
