@@ -1,7 +1,6 @@
 ﻿@using Minesweeper.App.ViewModels
 @model GameStateViewModel
 
-
 <div class="top-panel">
     <div class="flag-counter">
         <img src="~/lib/border/topleft.svg" width="24" height="24" />
@@ -84,11 +83,13 @@
         <input type="text" id="playerNameInput" class="name-input" placeholder="Name" />
         <br /><br />
         <button onclick="submitPlayerName()" class="start-button">Submit</button>
+        <a asp-controller="Home" asp-action="Index" class="back-button">← Back to Game</a>
     </div>
 </div>
 
 <script>
     window.gameId = '@Model.GameId';
+    window.totalMines = '@Model.TotalMines';
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
 <script src="~/js/game.js"></script>

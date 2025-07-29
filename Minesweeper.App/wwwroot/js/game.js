@@ -7,6 +7,8 @@ let isFirstMoveDone = false;
 let timerInterval = null;
 let seconds = 0;
 
+updateCounter("mine-counter", window.totalMines);
+
 connection.on("GameStateUpdated", function (gameState) {
     if (gameState.status === 1 && !gameOverHandled) {
         gameOverHandled = true;
@@ -69,9 +71,23 @@ document.getElementById('game-board').addEventListener('contextmenu', function (
     const x = parseInt(td.getAttribute('data-x'), 10);
     const y = parseInt(td.getAttribute('data-y'), 10);
 
-    connection.invoke("ToggleFlag", window.gameId, x, y).catch(console.error);
+    if (!isFirstMoveDone) {
+        isFirstMoveDone = true;
+        startTimer();
+    }
+
+    connection.invoke("ToggleFlag", window.gameId, x, y)
+        .then(() => {
+            setTimeout(updateRemainingMinesCounter, 50);
+        })
+        .catch(console.error);
 });
 
+function updateRemainingMinesCounter() {
+    usedFlags = document.querySelectorAll('td.closed img[src*="cellflag.svg"]').length;
+    const remaining = Math.max(0, totalMines - usedFlags);
+    updateCounter("mine-counter", remaining);
+}
 function updateBoard(cells, gameOver = false, explodedX = null, explodedY = null) {
     if (!cells) return;
 
@@ -185,9 +201,7 @@ function updateCounter(elementId, value) {
     }
 }
 
-
 updateCounter("timer-counter", 0);
-updateCounter("mine-counter", 10);
 
 function startTimer() {
     if (timerInterval !== null) return;

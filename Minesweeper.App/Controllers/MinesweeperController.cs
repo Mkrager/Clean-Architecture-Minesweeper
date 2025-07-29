@@ -20,6 +20,8 @@ namespace Minesweeper.App.Controllers
 
             var gameState = await _minesweeperService.GetGameState(game);
 
+            gameState.TotalMines = createGameRequest.TotalMines;
+
             return View(gameState);
         }
     }

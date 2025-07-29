@@ -39,12 +39,31 @@ namespace Minesweeper.Infrastructure.Services
         public Cell ToggleFlag(Game game, int x, int y)
         {
             var cell = game.Field[x, y];
+
             if (game.Status != GameStatus.InProgress || cell.IsOpened)
                 return cell;
 
-            cell.HasFlag = !cell.HasFlag;
+            if (cell.HasFlag)
+            {
+                cell.HasFlag = false;
+                return cell;
+            }
+
+            int totalFlags = 0;
+            foreach (var c in game.Field)
+            {
+                if (c.HasFlag) totalFlags++;
+            }
+
+            if (totalFlags >= game.TotalMines)
+            {
+                return cell;
+            }
+
+            cell.HasFlag = true;
             return cell;
         }
+
 
         private void Reveal(Game game, int x, int y, List<(int X, int Y, Cell cell)> opened)
         {
