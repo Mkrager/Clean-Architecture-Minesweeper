@@ -73,5 +73,22 @@ namespace Minesweeper.App.Services
             return new List<LeaderbordListViewModel>();
         }
 
+        public async Task<List<LeaderbordListViewModel>> GetLeaderbordListByLevel(GameLevel gameLevel)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, $"{_baseUrl}/api/LeaderboardEntry/{gameLevel}");
+
+            var response = await _httpClient.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                var leaderbordList = JsonSerializer.Deserialize<List<LeaderbordListViewModel>>(responseContent, _jsonOptions);
+
+                return leaderbordList;
+            }
+
+            return new List<LeaderbordListViewModel>();
+        }
     }
 }

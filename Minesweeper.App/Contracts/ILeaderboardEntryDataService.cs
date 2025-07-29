@@ -6,5 +6,6 @@ namespace Minesweeper.App.Contracts
     {
         Task<Guid> CreateLeaderboardEntry(LeaderboardViewModel leaderboardVm);
         Task<List<LeaderbordListViewModel>> GetLeaderbordList();
+        Task<List<LeaderbordListViewModel>> GetLeaderbordListByLevel(GameLevel gameLevel);
     }
 }

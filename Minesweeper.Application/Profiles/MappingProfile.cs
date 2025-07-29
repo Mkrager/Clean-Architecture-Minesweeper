@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Minesweeper.Application.DTOs;
+using Minesweeper.Application.Features.LeaderboardEntries.Queries.GetLeaderboardEntryByLevelList;
 using Minesweeper.Application.Features.LeaderboardEntries.Queries.GetLeaderboardEntryList;
 using Minesweeper.Application.Features.Minesweeper.Commands.OpenCell;
 using Minesweeper.Application.Features.Minesweeper.Commands.ToggleFlag;
@@ -14,7 +15,6 @@ namespace Minesweeper.Application.Profiles
         public MappingProfile()
         {
             CreateMap<GameStateDto, GameStateVm>().ReverseMap();
-
             CreateMap<GameStateDto, SolveCommandResponse>().ReverseMap();
     
             CreateMap<GameStateCellDto, CellDto>().ReverseMap();
@@ -26,6 +26,7 @@ namespace Minesweeper.Application.Profiles
             CreateMap<CellDto, ToggleFlagCellDto>().ReverseMap();
 
             CreateMap<LeaderboardEntry, LeaderboardEntryListVm>().ReverseMap();
+            CreateMap<LeaderboardEntry, LeaderboardEntryByLevelListVm>().ReverseMap();
         }
     }
 }

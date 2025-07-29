@@ -14,6 +14,18 @@ namespace Minesweeper.App.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> ListByLevel(string gameLevel)
+        {
+            if (!Enum.TryParse<GameLevel>(gameLevel, ignoreCase: true, out var level))
+            {
+                return BadRequest("Invalid game level.");
+            }
+
+            var list = await _leaderboardEntryDataService.GetLeaderbordListByLevel(level);
+            return View(list);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> List()
         {
             var list = await _leaderboardEntryDataService.GetLeaderbordList();
@@ -21,7 +33,7 @@ namespace Minesweeper.App.Controllers
             return View(list);
         }
 
-            [HttpPost]
+        [HttpPost]
         public async Task<IActionResult> Create([FromBody] LeaderboardViewModel leaderboardViewModel)
         {
             var result = await _leaderboardEntryDataService.CreateLeaderboardEntry(leaderboardViewModel);
