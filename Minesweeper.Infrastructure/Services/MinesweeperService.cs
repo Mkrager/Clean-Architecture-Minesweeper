@@ -22,8 +22,11 @@ namespace Minesweeper.Infrastructure.Services
 
         public Task<Guid> CreateNewGameAsync(int width, int height, int mines)
         {
+            var id = Guid.NewGuid();
+
             var game = new Game()
             {
+                GameId = id,
                 Width = width,
                 Height = height,
                 TotalMines = mines,
@@ -38,7 +41,6 @@ namespace Minesweeper.Infrastructure.Services
                 game.GameLevel = GameLevel.Hard;
 
             _engine.Initialize(game);
-            var id = Guid.NewGuid();
             _cache.Set(id, game, _cacheOptions);
             return Task.FromResult(id);
         }

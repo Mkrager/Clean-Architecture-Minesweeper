@@ -1,4 +1,6 @@
-﻿const connection = new signalR.HubConnectionBuilder()
+﻿console.log("JS script loaded");
+
+const connection = new signalR.HubConnectionBuilder()
     .withUrl("https://localhost:7171/hub/notifications")
     .build();
 
@@ -19,6 +21,7 @@ connection.on("GameStateUpdated", function (gameState) {
             .then(fullState => {
                 if (fullState && fullState.cells) {
                     updateBoard(fullState.cells, true, fullState.explodedX, fullState.explodedY);
+                    updateRemainingMinesCounter();
                 }
             })
             .catch(console.error);
@@ -36,6 +39,7 @@ connection.on("GameStateUpdated", function (gameState) {
                 .then(fullState => {
                     if (fullState && fullState.cells) {
                         updateBoard(fullState.cells, false);
+                        updateRemainingMinesCounter();
                     }
                 })
                 .catch(console.error);

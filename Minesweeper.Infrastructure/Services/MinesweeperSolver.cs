@@ -6,6 +6,12 @@ namespace Minesweeper.Infrastructure.Services
     public class MinesweeperSolver : IMinesweeperSolverService
     {
         private Game _game = null!;
+        private readonly IMinesweeperService _minesweeperService;
+
+        public MinesweeperSolver(IMinesweeperService minesweeperService)
+        {
+            _minesweeperService = minesweeperService;
+        }
 
         public void Solve(Game game)
         {
@@ -31,19 +37,19 @@ namespace Minesweeper.Infrastructure.Services
                         if (cell.AdjacentMines - flagged == hidden.Count && hidden.Count > 0)
                         {
                             foreach (var mine in hidden)
-                                mine.HasFlag = true;
+                                _minesweeperService.ToggleFlagAsync(game.GameId, mine.X, mine.Y).Wait();
                             moveMade = true;
                         }
                         else if (flagged == cell.AdjacentMines && hidden.Count > 0)
                         {
                             foreach (var safe in hidden)
-                                OpenCell(safe);
+                                _minesweeperService.OpenCellAsync(game.GameId, safe.X, safe.Y).Wait();
                             moveMade = true;
                         }
                     }
                 }
 
-                if (ApplySubsetLogic())
+                if (ApplySubsetLogic(game.GameId))
                     moveMade = true;
 
                 if (!moveMade)
@@ -52,59 +58,9 @@ namespace Minesweeper.Infrastructure.Services
                     if (guess == null)
                         break;
 
-                    OpenCell(guess);
+                    _minesweeperService.OpenCellAsync(game.GameId, guess.X, guess.Y).Wait();
                 }
             }
-        }
-
-        private void OpenCell(Cell cell)
-        {
-            if (cell.IsOpened || cell.HasFlag)
-                return;
-
-            cell.IsOpened = true;
-
-            if (cell.HasMine)
-            {
-                _game.Status = GameStatus.Lost;
-                _game.EndTime = DateTime.Now;
-                return;
-            }
-
-            if (cell.AdjacentMines == 0)
-            {
-                foreach (var (dx, dy) in GetNeighborOffsets())
-                {
-                    int nx = cell.X + dx;
-                    int ny = cell.Y + dy;
-                    if (nx >= 0 && ny >= 0 && nx < _game.Width && ny < _game.Height)
-                    {
-                        var neighbor = _game.Field[nx, ny];
-                        if (!neighbor.IsOpened)
-                            OpenCell(neighbor);
-                    }
-                }
-            }
-
-            if (CheckWin())
-            {
-                _game.Status = GameStatus.Won;
-                _game.EndTime = DateTime.Now;
-            }
-        }
-
-        private bool CheckWin()
-        {
-            for (int x = 0; x < _game.Width; x++)
-            {
-                for (int y = 0; y < _game.Height; y++)
-                {
-                    var cell = _game.Field[x, y];
-                    if (!cell.HasMine && !cell.IsOpened)
-                        return false;
-                }
-            }
-            return true;
         }
 
         private List<Cell> GetNeighbors(int x, int y)
@@ -177,7 +133,7 @@ namespace Minesweeper.Infrastructure.Services
             return candidates.OrderBy(c => c.risk).First().cell;
         }
 
-        private bool ApplySubsetLogic()
+        private bool ApplySubsetLogic(Guid gameId)
         {
             var moveMade = false;
 
@@ -218,13 +174,13 @@ namespace Minesweeper.Infrastructure.Services
                     if (mineDiff == diff.Count && mineDiff > 0)
                     {
                         foreach (var cell in diff)
-                            cell.HasFlag = true;
+                            _minesweeperService.ToggleFlagAsync(gameId, cell.X, cell.Y).Wait();
                         moveMade = true;
                     }
                     else if (mineDiff == 0 && diff.Count > 0)
                     {
                         foreach (var cell in diff)
-                            OpenCell(cell);
+                            _minesweeperService.OpenCellAsync(gameId, cell.X, cell.Y).Wait();
                         moveMade = true;
                     }
                 }

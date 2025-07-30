@@ -2,6 +2,7 @@
 
 public class Game
 {
+    public Guid GameId { get; set; }
     public int Width { get; set; }
     public int Height { get; set; }
     public GameStatus Status { get; set; }
