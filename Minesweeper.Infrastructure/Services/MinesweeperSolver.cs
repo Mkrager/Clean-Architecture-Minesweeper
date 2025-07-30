@@ -24,7 +24,7 @@ namespace Minesweeper.Infrastructure.Services
                         if (!cell.IsOpened || cell.AdjacentMines == 0)
                             continue;
 
-                        var neighbors = GetNeighbors(x, y);
+                        var neighbors = GetNeighbors(cell.X, cell.Y);
                         var flagged = neighbors.Count(c => c.HasFlag);
                         var hidden = neighbors.Where(c => !c.IsOpened && !c.HasFlag).ToList();
 
@@ -42,6 +42,9 @@ namespace Minesweeper.Infrastructure.Services
                         }
                     }
                 }
+
+                if (ApplySubsetLogic())
+                    moveMade = true;
 
                 if (!moveMade)
                 {
@@ -70,10 +73,13 @@ namespace Minesweeper.Infrastructure.Services
 
             if (cell.AdjacentMines == 0)
             {
-                foreach (var (nx, ny) in GetCoords(cell))
+                foreach (var (dx, dy) in GetNeighborOffsets())
                 {
-                    foreach (var neighbor in GetNeighbors(nx, ny))
+                    int nx = cell.X + dx;
+                    int ny = cell.Y + dy;
+                    if (nx >= 0 && ny >= 0 && nx < _game.Width && ny < _game.Height)
                     {
+                        var neighbor = _game.Field[nx, ny];
                         if (!neighbor.IsOpened)
                             OpenCell(neighbor);
                     }
@@ -105,26 +111,25 @@ namespace Minesweeper.Infrastructure.Services
         {
             var neighbors = new List<Cell>();
 
-            for (int dx = -1; dx <= 1; dx++)
+            foreach (var (dx, dy) in GetNeighborOffsets())
             {
-                for (int dy = -1; dy <= 1; dy++)
-                {
-                    if (dx == 0 && dy == 0) continue;
-                    int nx = x + dx, ny = y + dy;
-                    if (nx >= 0 && ny >= 0 && nx < _game.Width && ny < _game.Height)
-                        neighbors.Add(_game.Field[nx, ny]);
-                }
+                int nx = x + dx;
+                int ny = y + dy;
+                if (nx >= 0 && ny >= 0 && nx < _game.Width && ny < _game.Height)
+                    neighbors.Add(_game.Field[nx, ny]);
             }
+
             return neighbors;
         }
 
-        private List<(int, int)> GetCoords(Cell target)
+        private List<(int dx, int dy)> GetNeighborOffsets()
         {
-            for (int x = 0; x < _game.Width; x++)
-                for (int y = 0; y < _game.Height; y++)
-                    if (_game.Field[x, y] == target)
-                        return new List<(int, int)> { (x, y) };
-            return new();
+            return new List<(int, int)>
+            {
+                (-1, -1), (0, -1), (1, -1),
+                (-1, 0),           (1, 0),
+                (-1, 1),  (0, 1),  (1, 1)
+            };
         }
 
         private Cell? GetBestGuessCell()
@@ -138,7 +143,7 @@ namespace Minesweeper.Infrastructure.Services
                     var cell = _game.Field[x, y];
                     if (cell.IsOpened || cell.HasFlag) continue;
 
-                    var neighbors = GetNeighbors(x, y).Where(c => c.IsOpened).ToList();
+                    var neighbors = GetNeighbors(cell.X, cell.Y).Where(c => c.IsOpened).ToList();
                     if (neighbors.Count == 0)
                     {
                         candidates.Add((cell, 0.5));
@@ -149,7 +154,7 @@ namespace Minesweeper.Infrastructure.Services
                     int count = 0;
                     foreach (var n in neighbors)
                     {
-                        var adjacent = GetNeighborsForCell(n);
+                        var adjacent = GetNeighbors(n.X, n.Y);
                         int flagged = adjacent.Count(c => c.HasFlag);
                         int hidden = adjacent.Count(c => !c.IsOpened && !c.HasFlag);
                         int minesLeft = n.AdjacentMines - flagged;
@@ -172,15 +177,60 @@ namespace Minesweeper.Infrastructure.Services
             return candidates.OrderBy(c => c.risk).First().cell;
         }
 
-        private List<Cell> GetNeighborsForCell(Cell cell)
+        private bool ApplySubsetLogic()
         {
-            var coords = GetCoords(cell);
-            var neighbors = new List<Cell>();
-            foreach (var (x, y) in coords)
+            var moveMade = false;
+
+            var openedCells = new List<(Cell cell, List<Cell> hidden, int minesLeft)>();
+
+            for (int x = 0; x < _game.Width; x++)
             {
-                neighbors.AddRange(GetNeighbors(x, y));
+                for (int y = 0; y < _game.Height; y++)
+                {
+                    var cell = _game.Field[x, y];
+                    if (!cell.IsOpened || cell.AdjacentMines == 0)
+                        continue;
+
+                    var neighbors = GetNeighbors(cell.X, cell.Y);
+                    var flagged = neighbors.Count(n => n.HasFlag);
+                    var hidden = neighbors.Where(n => !n.IsOpened && !n.HasFlag).ToList();
+                    int minesLeft = cell.AdjacentMines - flagged;
+
+                    if (hidden.Count > 0 && minesLeft >= 0)
+                        openedCells.Add((cell, hidden, minesLeft));
+                }
             }
-            return neighbors.Distinct().ToList();
+
+            for (int i = 0; i < openedCells.Count; i++)
+            {
+                for (int j = 0; j < openedCells.Count; j++)
+                {
+                    if (i == j) continue;
+
+                    var (cellA, hiddenA, minesA) = openedCells[i];
+                    var (cellB, hiddenB, minesB) = openedCells[j];
+
+                    if (!hiddenB.All(hiddenA.Contains)) continue;
+
+                    var diff = hiddenA.Except(hiddenB).ToList();
+                    int mineDiff = minesA - minesB;
+
+                    if (mineDiff == diff.Count && mineDiff > 0)
+                    {
+                        foreach (var cell in diff)
+                            cell.HasFlag = true;
+                        moveMade = true;
+                    }
+                    else if (mineDiff == 0 && diff.Count > 0)
+                    {
+                        foreach (var cell in diff)
+                            OpenCell(cell);
+                        moveMade = true;
+                    }
+                }
+            }
+
+            return moveMade;
         }
     }
 }

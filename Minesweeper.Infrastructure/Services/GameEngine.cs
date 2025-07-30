@@ -10,10 +10,17 @@ namespace Minesweeper.Infrastructure.Services
             game.Status = GameStatus.InProgress;
             game.Field = new Cell[game.Width, game.Height];
             for (int x = 0; x < game.Width; x++)
+            {
                 for (int y = 0; y < game.Height; y++)
-                    game.Field[x, y] = new Cell();
+                {
+                    game.Field[x, y] = new Cell
+                    {
+                        X = x,
+                        Y = y
+                    };
+                }
+            }
         }
-
         public List<(int X, int Y, Cell cell)> OpenCell(Game game, int x, int y)
         {
             if (game.Status != GameStatus.InProgress)
