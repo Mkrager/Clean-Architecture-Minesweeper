@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Minesweeper.Application.Contracts.Infrastructure;
-using Minesweeper.Application.Features.Minesweeper.Commands.ToggleFlag;
 using Minesweeper.Application.Features.Minesweeper.Queries.GetGameState;
 using Minesweeper.Application.Profiles;
 using Minesweeper.Application.UnitTests.Mocks;

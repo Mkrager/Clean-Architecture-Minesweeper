@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Minesweeper.Application.Contracts.Persistance;
 using Minesweeper.Application.Features.LeaderboardEntries.Queries.GetLeaderboardEntryList;
-using Minesweeper.Application.Features.Minesweeper.Queries.GetGameState;
 using Minesweeper.Application.Profiles;
 using Minesweeper.Application.UnitTests.Mocks;
 using Minesweeper.Domain.Entities;

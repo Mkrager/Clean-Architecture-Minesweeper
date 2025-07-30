@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Minesweeper.Application.Contracts.Infrastructure;
+using Minesweeper.Domain.Entities;
 
 namespace Minesweeper.Application.Features.Solver.Command.Solve
 {
@@ -19,7 +20,7 @@ namespace Minesweeper.Application.Features.Solver.Command.Solve
         {
             var game = _minesweeperService.GetGame(request.GameId);
 
-            await _minesweeperService.OpenCellAsync(request.GameId, game.Width / 2, game.Width / 2);
+            await _minesweeperService.OpenCellAsync(request.GameId, game.Width / 2, game.Height / 2);
 
             _minesweeperSolver.Solve(game);
 

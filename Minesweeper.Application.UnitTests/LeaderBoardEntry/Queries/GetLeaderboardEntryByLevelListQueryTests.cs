@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Minesweeper.Application.Contracts.Persistance;
-using Minesweeper.Application.Features.LeaderboardEntries.Commands.CreateLeaderboadEntry;
 using Minesweeper.Application.Features.LeaderboardEntries.Queries.GetLeaderboardEntryByLevelList;
-using Minesweeper.Application.Features.LeaderboardEntries.Queries.GetLeaderboardEntryList;
 using Minesweeper.Application.Profiles;
 using Minesweeper.Application.UnitTests.Mocks;
 using Minesweeper.Domain.Entities;

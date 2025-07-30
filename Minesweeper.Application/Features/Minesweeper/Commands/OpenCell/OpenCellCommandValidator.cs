@@ -9,9 +9,9 @@ namespace Minesweeper.Application.Features.Minesweeper.Commands.OpenCell
             RuleFor(r => r.GameId)
                 .NotEmpty().WithMessage("Empty game");
             RuleFor(r => r.X)
-                .NotEmpty().WithMessage("Empty X");
+                .GreaterThanOrEqualTo(0).WithMessage("X must be 0 or greater.");
             RuleFor(r => r.Y)
-                .NotEmpty().WithMessage("Empty Y");
+                .GreaterThanOrEqualTo(0).WithMessage("X must be 0 or greater.");
         }
     }
 }
