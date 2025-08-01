@@ -14,7 +14,7 @@ namespace Minesweeper.Application.UnitTests.Minesweeper.Commands
 
         public OpenCellCommandTests()
         {
-            _mockMinesweeperService = RepositoryMocks.GetMinesweeperService();
+            _mockMinesweeperService = MinesweeperServiceMock.GetMinesweeperService();
             var configuratinProvider = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<MappingProfile>();

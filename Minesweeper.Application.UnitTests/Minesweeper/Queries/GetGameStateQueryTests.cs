@@ -14,7 +14,7 @@ namespace Minesweeper.Application.UnitTests.Minesweeper.Queries
 
         public GetGameStateQueryTests()
         {
-            _mockMinesweeperService = RepositoryMocks.GetMinesweeperService();
+            _mockMinesweeperService = MinesweeperServiceMock.GetMinesweeperService();
             var configurationProvider = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<MappingProfile>();

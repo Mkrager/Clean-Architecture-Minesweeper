@@ -16,8 +16,8 @@ namespace Minesweeper.Application.UnitTests.Solver.Commands
 
         public SolveCommandTests()
         {
-            _mockMinesweeperService = RepositoryMocks.GetMinesweeperService();
-            _mockMinesweeperSolverService = RepositoryMocks.GetMinesweeperSolverService();
+            _mockMinesweeperService = MinesweeperServiceMock.GetMinesweeperService();
+            _mockMinesweeperSolverService = MinesweeperSolverServiceMock.GetMinesweeperSolverService();
             var configuratinProvider = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<MappingProfile>();

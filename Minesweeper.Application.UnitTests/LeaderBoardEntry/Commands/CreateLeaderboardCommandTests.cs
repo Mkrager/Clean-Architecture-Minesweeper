@@ -1,8 +1,6 @@
 ﻿using Minesweeper.Application.Contracts.Infrastructure;
 using Minesweeper.Application.Contracts.Persistance;
 using Minesweeper.Application.Features.LeaderboardEntries.Commands.CreateLeaderboadEntry;
-using Minesweeper.Application.Features.Minesweeper.Commands.CreateGame;
-using Minesweeper.Application.Features.Minesweeper.Queries.GetGameState;
 using Minesweeper.Application.UnitTests.Mocks;
 using Minesweeper.Domain.Entities;
 using Moq;
@@ -15,8 +13,8 @@ namespace Minesweeper.Application.UnitTests.LeaderBoardEntry.Commands
         private readonly Mock<IMinesweeperService> _mockMinesweeperService;
         public CreateLeaderboardCommandTests()
         {
-            _mockLeaderboardEntryRepository = RepositoryMocks.GetLeaderboardRepository();
-            _mockMinesweeperService = RepositoryMocks.GetMinesweeperService();
+            _mockLeaderboardEntryRepository = LeaderboardRepositoryMock.GetLeaderboardRepository();
+            _mockMinesweeperService = MinesweeperServiceMock.GetMinesweeperService();
         }
 
         [Fact]

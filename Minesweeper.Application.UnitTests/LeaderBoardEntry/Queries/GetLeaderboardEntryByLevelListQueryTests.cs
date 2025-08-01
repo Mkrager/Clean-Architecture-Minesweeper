@@ -15,7 +15,7 @@ namespace Minesweeper.Application.UnitTests.LeaderBoardEntry.Queries
 
         public GetLeaderboardEntryByLevelListQueryTests()
         {
-            _mockLeaderboardEntryRepository = RepositoryMocks.GetLeaderboardRepository();
+            _mockLeaderboardEntryRepository = LeaderboardRepositoryMock.GetLeaderboardRepository();
             var configurationProvider = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<MappingProfile>();
