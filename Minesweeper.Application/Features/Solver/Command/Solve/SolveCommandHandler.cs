@@ -22,7 +22,7 @@ namespace Minesweeper.Application.Features.Solver.Command.Solve
 
             await _minesweeperService.OpenCellAsync(request.GameId, game.Width / 2, game.Height / 2);
 
-            _minesweeperSolver.Solve(game);
+            await _minesweeperSolver.SolveAsync(game);
 
             var result = await _minesweeperService.GetGameStateAsync(request.GameId);
 

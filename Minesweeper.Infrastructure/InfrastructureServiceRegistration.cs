@@ -12,6 +12,10 @@ namespace Minesweeper.Infrastructure
             services.AddTransient<IGameEngine, GameEngine>();
             services.AddTransient<IMinesweeperSolverService, MinesweeperSolver>();
 
+            services.AddTransient<IMoveStrategy, SimpleLogicStrategy>();
+            services.AddTransient<IMoveStrategy, SubsetLogicStrategy>();
+            services.AddTransient<IMoveStrategy, GuessStrategy>();
+
             services.AddMemoryCache();
             return services;
         }

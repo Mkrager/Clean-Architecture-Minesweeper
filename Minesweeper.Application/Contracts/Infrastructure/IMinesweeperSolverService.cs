@@ -2,6 +2,6 @@
 {
     public interface IMinesweeperSolverService
     {
-        void Solve(Game game);
+        Task SolveAsync(Game game);
     }
 }
