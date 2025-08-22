@@ -3,7 +3,7 @@ using Minesweeper.Application.Contracts.Infrastructure;
 using Minesweeper.Application.DTOs;
 using Minesweeper.Domain.Entities;
 
-namespace Minesweeper.Infrastructure.Services
+namespace Minesweeper.Infrastructure.Minesweeper
 {
     public class MinesweeperService : IMinesweeperService
     {

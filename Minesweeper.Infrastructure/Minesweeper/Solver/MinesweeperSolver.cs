@@ -1,7 +1,7 @@
 ﻿using Minesweeper.Application.Contracts.Infrastructure;
 using Minesweeper.Domain.Entities;
 
-namespace Minesweeper.Infrastructure.Services
+namespace Minesweeper.Infrastructure.Minesweeper.Solver
 {
     public class MinesweeperSolver : IMinesweeperSolverService
     {

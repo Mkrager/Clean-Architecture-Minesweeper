@@ -1,11 +1,11 @@
 ﻿using Minesweeper.Application.Contracts.Infrastructure;
 using Minesweeper.Domain.Entities;
 
-namespace Minesweeper.Infrastructure.Services
+namespace Minesweeper.Infrastructure.Minesweeper.Solver
 {
-    public class SubsetLogicStrategy : IMoveStrategy
+    public class SubsetLogicStrategy : MoveStrategyBase
     {
-        public async Task<bool> ApplyAsync(Game game, IMinesweeperService service)
+        public override async Task<bool> ApplyAsync(Game game, IMinesweeperService service)
         {
             bool moveMade = false;
             var openedCells = new List<(Cell cell, List<Cell> hidden, int minesLeft)>();
@@ -57,27 +57,6 @@ namespace Minesweeper.Infrastructure.Services
             }
 
             return moveMade;
-        }
-
-        private List<Cell> GetNeighbors(Game game, int x, int y)
-        {
-            var neighbors = new List<Cell>();
-            var offsets = new (int dx, int dy)[]
-            {
-                (-1,-1),(0,-1),(1,-1),
-                (-1,0),       (1,0),
-                (-1,1),(0,1),(1,1)
-            };
-
-            foreach (var (dx, dy) in offsets)
-            {
-                int nx = x + dx;
-                int ny = y + dy;
-                if (nx >= 0 && ny >= 0 && nx < game.Width && ny < game.Height)
-                    neighbors.Add(game.Field[nx, ny]);
-            }
-
-            return neighbors;
         }
     }
 }

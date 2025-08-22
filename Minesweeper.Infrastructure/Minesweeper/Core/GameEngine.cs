@@ -1,7 +1,7 @@
 ﻿using Minesweeper.Application.Contracts.Infrastructure;
 using Minesweeper.Domain.Entities;
 
-namespace Minesweeper.Infrastructure.Services
+namespace Minesweeper.Infrastructure.Minesweeper.Core
 {
     public class GameEngine : IGameEngine
     {
@@ -101,7 +101,7 @@ namespace Minesweeper.Infrastructure.Services
                 int x = rand.Next(game.Width);
                 int y = rand.Next(game.Height);
 
-                if ((x == excludeX && y == excludeY) || game.Field[x, y].HasMine)
+                if (x == excludeX && y == excludeY || game.Field[x, y].HasMine)
                     continue;
 
                 game.Field[x, y].HasMine = true;

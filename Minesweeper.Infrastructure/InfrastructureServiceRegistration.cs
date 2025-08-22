@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Minesweeper.Application.Contracts.Infrastructure;
-using Minesweeper.Infrastructure.Services;
+using Minesweeper.Infrastructure.Minesweeper;
+using Minesweeper.Infrastructure.Minesweeper.Core;
+using Minesweeper.Infrastructure.Minesweeper.Solver;
 
 namespace Minesweeper.Infrastructure
 {
