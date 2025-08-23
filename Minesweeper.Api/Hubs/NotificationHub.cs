@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.SignalR;
-using Minesweeper.Application.Contracts.Infrastructure;
 using Minesweeper.Application.Features.Minesweeper.Commands.OpenCell;
 using Minesweeper.Application.Features.Minesweeper.Commands.ToggleFlag;
 using Minesweeper.Application.Features.Minesweeper.Queries.GetGameState;

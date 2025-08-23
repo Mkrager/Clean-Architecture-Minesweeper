@@ -9,7 +9,7 @@ namespace Minesweeper.Application.UnitTests.Mocks
         {
             var mockRepository = new Mock<IMinesweeperSolverService>();
 
-            mockRepository.Setup(r => r.Solve(It.IsAny<Game>()));
+            mockRepository.Setup(r => r.SolveAsync(It.IsAny<Game>()));
 
             return mockRepository;
         }
